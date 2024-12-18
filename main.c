@@ -1,38 +1,51 @@
-#include<stdio.h>
-#include "user.c"
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "headers/user.h"
 
 enum MenuOptions { LOGIN = 1, REGISTER, EXIT };
 
-int main(void) {
-    printf(""
-        "Main Menu\n"
-        "1- Login\n"
-        "2- Register\n"
-        "3- Exit\n");
-    enum MenuOptions input; // todo: if char or not 1-3 -> crash
-    scanf("%d", &input);
-    //todo: clear cache
+enum MenuOptions main_menu_ui();
+
+int main() {
+    enum MenuOptions input = main_menu_ui();
+
     switch (input) {
         case LOGIN:
-            login_user_ui();
+            login_user_ui(false);
             break;
         case REGISTER:
             register_user_ui();
             break;
         case EXIT:
-            char inp;
-            do {
+            char sure;
+            while (1) {
                 system("cls");
                 printf("Are you sure?(y/n)\n");
-                scanf("%c", &inp);
-                if(input=='y') {
+                scanf("%c", &sure);
+                fflush(stdin);
+                if (sure == 'y') {
                     return 0;
                 }
-                if (input == 'n') {
-                    main(); //todo: maybe no recursive?
+                if (sure == 'n') {
+                    main();
                 }
-                //todo: clear cache
-            } while(1);
+            }
     }
+
     return 0;
+}
+
+enum MenuOptions main_menu_ui() {
+    system("cls");
+
+    printf(""
+        "Main Menu\n"
+        "1- Login\n"
+        "2- Register\n"
+        "3- Exit\n");
+    enum MenuOptions input;
+    scanf("%d", &input);
+    fflush(stdin);
+    return input;
 }

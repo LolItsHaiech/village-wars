@@ -5,4 +5,8 @@ set(CMAKE_C_STANDARD 90)
 
 add_executable(village_wars main.c
         user.c
-        file_management.c)
+        file_management.c
+        headers/user.h
+        headers/file_management.h
+        utils.c
+        headers/utils.h)
