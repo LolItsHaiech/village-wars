@@ -2,6 +2,12 @@
 #define USER_H
 #include <stdbool.h>
 
+struct user {
+    int id;
+    char username[11];
+    char village_name[11];
+};
+
 typedef struct user user;
 
 int encrypt_password(char [11]);

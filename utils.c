@@ -27,5 +27,19 @@ void add_whitespace(char* string, int fill) {
     for (i = strlen(string); i < fill; ++i) {
         string[i] = ' ';
     }
-    string[11] = '\0';
+    string[fill+1] = '\0';
 }
+
+void end_string(char* string) {
+    int i=0;
+    while(1) {
+        if(string[i] == '\n' || string[i] == ' ' ||
+            string[i] == '\0' || string[i] == ':') {
+
+            string[i] = '\0';
+            return;
+        }
+        i++;
+    }
+}
+

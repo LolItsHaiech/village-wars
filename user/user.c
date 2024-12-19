@@ -1,45 +1,41 @@
-#include "headers/user.h"
+#include "../headers/user.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "headers/file_management.h"
+#include "../headers/file_management.h"
+#include "../headers/user_menu.h"
+#include "../headers/utils.h"
 
 
-typedef struct user {
-    int id;
-    char username[10];
-} user;
 
 
-void login_user_ui(bool wrong_user) {
+void register_user_ui() {
     char username[11];
     char password[11], confirm_password[11];
 
     system("cls");
 
-    printf("Login\n");
+    printf("Register\n");
 
-    if (wrong_user) {
-        printf("Wrong username or password.\n");
-        printf("Try again.\n");
-    }
 
     while (1) {
-        gets(username);
+        printf("Username: ");
+        fgets(username, 11, stdin);
         fflush(stdin);
         if (strchr(username, ' ')) {
             printf("Username can't contain the character space. (' ')\n");
             printf("Try again.\n");
             continue;
         }
+        end_string(username);
         break;
     }
 
     printf("Password: ");
     while (1) {
-        gets(password);
+        fgets(password, 11, stdin);
         fflush(stdin);
         if (strchr(password, ' ')) {
             printf("Password can't contain the character space. (' ')\n");
@@ -51,7 +47,8 @@ void login_user_ui(bool wrong_user) {
 
     printf("Confirm password: ");
     while (1) {
-        gets(confirm_password);
+
+        fgets(confirm_password, 11, stdin);
         fflush(stdin);
         if (strchr(confirm_password, ' ')) {
             printf("Confirm Password can't contain the character space. (' ')\n");
@@ -66,60 +63,75 @@ void login_user_ui(bool wrong_user) {
         break;
     }
 
-    user *player = login_user(username, password);
-    if (player == NULL) {
-        login_user_ui(true);
-    }
+    end_string(password);
+    end_string(confirm_password);
 
-    free(player);
 
-    // todo open game
+    user *player = register_user(username, password);
+    user_menu_ui(player);
 }
 
-void register_user_ui() {
+void login_user_ui(bool wrong_user) {
     char username[11];
     char password[11];
 
-    printf("Register\n");
+    system("cls");
 
-    printf("Username: ");
+    if (wrong_user) {
+        printf("Wrong username or password.\n");
+        printf("Try again.\n");
+    }
+
+
+    printf("Login\n");
+
     while (1) {
-        gets(username);
+        printf("Username: "); // todo unique, no :
+        fgets(username,11, stdin);
         fflush(stdin);
         if (strchr(username, ' ')) {
             printf("Username can't contain the character space. (' ')\n");
             printf("Try again.\n");
             continue;
         }
+        end_string(username);
         break;
     }
 
-    printf("Password: ");
     while (1) {
-        gets(password);
+        printf("Password: ");
+        fgets(password, 11, stdin);
         fflush(stdin);
         if (strchr(password, ' ')) {
             printf("Password can't contain the character space. (' ')\n");
             printf("Try again.\n");
             continue;
         }
+        end_string(password);
         break;
     }
-    user *player = register_user(username, password);
 
-    free(player); //todo open game
+
+    user *player = login_user(username, password);
+
+    if(player == NULL) {
+        login_user_ui(true);
+    }
+
+
+    user_menu_ui(player);
 }
 
 user *register_user(char username[11], char password[11]) {
-    int index = 0;
     struct UserInfo user_info;
     user_info.id = get_last_user_id() + 1;
     strcpy(user_info.username, username);
     user_info.encrypted_password = encrypt_password(password);
     add_user(user_info);
     user *registered_user = (user *) malloc(sizeof(user));
-    registered_user->id = index;
+    registered_user->id = user_info.id;
     strcpy(registered_user->username, username);
+    get_village_name(registered_user->village_name, user_info.id);
     return registered_user;
 }
 
@@ -132,6 +144,9 @@ user *login_user(char username[11], char password[11]) {
     user *logged_in_user = (user *) malloc(sizeof(user));
     logged_in_user->id = id;
     strcpy(logged_in_user->username, username);
+    get_village_name(logged_in_user->village_name, id);
+
+
 
     return logged_in_user;
 }
