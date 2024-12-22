@@ -11,4 +11,5 @@ add_executable(village_wars main.c
         utils.c
         headers/utils.h
         user/user_menu.c
-        headers/user_menu.h)
+        headers/user_menu.h
+)

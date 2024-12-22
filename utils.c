@@ -1,13 +1,15 @@
 #include "headers/utils.h"
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int str2int(char* string, int length) {
     int result=0;
     int i;
     for (i = 0; i<length; ++i) {
-        result = 10*result + ((int)string[i] - '0');
+        result = 10*result + ((int)string[i] - (int)'0');
     }
     return result;
 }
@@ -22,12 +24,12 @@ int encrypt_password(char *password) {
 }
 
 
-void add_whitespace(char* string, int fill) {
+void add_whitespace(char* string, int str_size) {
     int i;
-    for (i = strlen(string); i < fill; ++i) {
+    for (i = strlen(string); i < str_size; ++i) {
         string[i] = ' ';
     }
-    string[fill+1] = '\0';
+    string[str_size+1] = '\0';
 }
 
 void end_string(char* string) {
@@ -43,3 +45,16 @@ void end_string(char* string) {
     }
 }
 
+
+int open_menu(char* title, char** options, int options_count) {
+    system("cls");
+    printf("%s\n\n", title);
+    int i;
+    for (i = 0; i < options_count; ++i)
+        printf("  %d - %s\n", i+1, options[i]);
+
+    int input;
+    scanf("%d", &input);
+    fflush(stdin);
+    return input;
+}
