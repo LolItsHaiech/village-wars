@@ -43,18 +43,3 @@ int main() {
     }
     return 0;
 }
-
-
-enum MenuOptions main_menu_ui() {
-    system("cls");
-
-    printf(""
-        "Main Menu\n\n"
-        "1- Login\n"
-        "2- Register\n"
-        "3- Exit\n");
-    enum MenuOptions input;
-    scanf("%d", &input);
-    fflush(stdin);
-    return input;
-}

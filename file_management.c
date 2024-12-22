@@ -1,17 +1,9 @@
 #include "headers/file_management.h"
-
 #include <stdbool.h>
-
 #include "headers/utils.h"
-
 #include <stdio.h>
 #include <string.h>
 
-struct UserInfo;
-
-enum UserFileLine {
-    VILLAGE_NAME
-};
 
 void get_file_line(char *output, int output_size, FILE *file, int line) {
     int line_counter = 0;
@@ -24,13 +16,56 @@ void get_file_line(char *output, int output_size, FILE *file, int line) {
 
     char ch;
     int i = 0;
-
     while ((ch = fgetc(file))!='\n' && i < output_size) {
         output[i] = ch;
         i++;
     }
-    // for (i = 0;  ; ++i)
     output[i]='\0';
+}
+
+void set_file_line(char* new_value, char* file_address, int line) {
+    FILE* file = fopen(file_address, "r");
+    FILE* temp_file = fopen(TEMP_FILE, "w");
+    int line_counter = 0;
+    while (line_counter != line) {
+        char ch = fgetc(file);
+        if (ch == '\n') {
+            line_counter++;
+        }
+        fputc(ch, temp_file);
+    }
+    char ch;
+    int i;
+    for (i = 0; new_value[i]!='\0'; i++) {
+        fputc(new_value[i], temp_file);
+    }
+    while(fgetc(file)!='\n'){}
+    while((ch = getc(file)) == '\0') {
+        fputc(ch, temp_file);
+    }
+
+    fputc('\n', temp_file);
+
+    fclose(temp_file);
+    fclose(file);
+    remove(file_address);
+    rename(TEMP_FILE, file_address);
+}
+
+void get_user_property(char* output, int output_size, int id, enum UserFileLine property) {
+    // todo what if file is deleted
+
+    char file_name[50];
+    sprintf(file_name, USER_FILE, id);
+    FILE *user_file = fopen(file_name, "r");
+    get_file_line(output, output_size, user_file, (int)property);
+    fclose(user_file);
+}
+
+void set_user_property(char *new_name, int id, enum UserFileLine property) {
+    char file_name[50];
+    sprintf(file_name, USER_FILE, id);
+    set_file_line(new_name, file_name, (int) property);
 }
 
 int get_last_user_id() {
@@ -86,53 +121,18 @@ void add_user(struct UserInfo user_info) {
     fclose(users_file);
 }
 
-void get_village_name(char *output, int id) {
-    // todo what if file is deleted/ there is more than 10 chars
-
-
-    char file_name[50];
-    sprintf(file_name, USER_FILE, id);
-    FILE *user_file = fopen(file_name, "r");
-    get_file_line(output, 11, user_file, VILLAGE_NAME);
-    if (!user_file) {
-        strcpy(output, "unknown");
-        return;
-    }
-    int i;
-    char current_char = fgetc(user_file);
-
-    for (i = 0; current_char != '\n'; i++) {
-        output[i] = current_char;
-        current_char = fgetc(user_file);
-    }
-
-
-    output[i] = '\0';
-    fclose(user_file);
-}
-
-void set_village_name(char *new_name, int id) {
-    // todo temp later
-    char file_name[50];
-    sprintf(file_name, USER_FILE, id);
-    FILE *user_file = fopen(file_name, "w");
-    fprintf(user_file, new_name);
-    fprintf(user_file, "\n");
-    fclose(user_file);
-}
-
 
 bool change_password(int id, char old_password[11], char new_password[11]) {
     char user_string[22];
-    bool found = false;
+    bool successful = false;
     FILE *users_file = fopen(USERS_FILE, "r");
-    FILE *temp_file = fopen(TEMP_USERS_FILE, "w");
+    FILE *temp_file = fopen(TEMP_FILE, "w");
 
     while (fgets(user_string, 22, users_file)) {
         struct UserInfo user_info = get_user_info(user_string);
         if (user_info.id == id && user_info.encrypted_password == encrypt_password(old_password)) {
             user_info.encrypted_password = encrypt_password(new_password);
-            found = true;
+            successful = true;
         }
         add_user_to_file(user_info, temp_file);
     }
@@ -141,7 +141,7 @@ bool change_password(int id, char old_password[11], char new_password[11]) {
     fclose(temp_file);
 
     remove(USERS_FILE);
-    rename(TEMP_USERS_FILE, USERS_FILE);
+    rename(TEMP_FILE, USERS_FILE);
 
-    return found;
+    return successful;
 }

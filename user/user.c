@@ -198,7 +198,6 @@ user *register_user(char username[11], char password[11]) {
     user *registered_user = (user *) malloc(sizeof(user));
     registered_user->id = user_info.id;
     strcpy(registered_user->username, username);
-    get_village_name(registered_user->village_name, user_info.id);
     return registered_user;
 }
 
@@ -212,8 +211,6 @@ user *login_user(char username[11], char password[11]) {
 
     logged_in_user->id = id;
     strcpy(logged_in_user->username, username);
-    get_village_name(logged_in_user->village_name, id);
-
 
     return logged_in_user;
 }

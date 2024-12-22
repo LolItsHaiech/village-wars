@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "../headers/file_management.h"
 #include "../headers/user.h"
@@ -21,7 +20,9 @@ void rename_village_ui(user*);
 
 void user_menu_ui(user *player) {
     char user_menu_title[30];
-    sprintf(user_menu_title, "User Menu(%s)", player->village_name);
+    char village_name[11];
+    get_user_property(village_name, 11, player->id, VILLAGE_NAME);
+    sprintf(user_menu_title, "User Menu(%s)", village_name);
 
 
     char* user_menu_options[7] = {
@@ -34,9 +35,6 @@ void user_menu_ui(user *player) {
         "Logout", //todo remove account
     };
     enum UserMenuOptions input = (enum UserMenuOptions)open_menu(user_menu_title, user_menu_options, 7);
-
-    scanf("%d", &input);
-    fflush(stdin);
     switch (input) {
         case RENAME_VILLAGE:
             rename_village_ui(player);
@@ -52,7 +50,8 @@ void user_menu_ui(user *player) {
         case CHANGE_PASSWORD:
             change_password_ui(player);
             break;
-        case LOGOUT: // todo are you sure?
+        case LOGOUT: // todo are you sure?,
+            // todo go to main menu
             free(player);
             return; // todo sends to main menu
     }
@@ -69,7 +68,6 @@ void rename_village_ui(user* player) {
     fgets(new_name, 11, stdin);
     fflush(stdin);
     end_string(new_name);
-    set_village_name(new_name, player->id);
-    strcpy(player->village_name, new_name);
+    set_user_property(new_name, player->id, VILLAGE_NAME);
     user_menu_ui(player);
 }
