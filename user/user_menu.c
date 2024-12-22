@@ -25,13 +25,13 @@ void user_menu_ui(user *player) {
 
 
     char* user_menu_options[7] = {
-        "1- Change village name",
-        "2- Resources",
-        "3- Building",
-        "4- Militaries",
-        "5- Attacks",
-        "6- Change password",
-        "7- Logout", //todo remoce account
+        "Change village name",
+        "Resources",
+        "Building",
+        "Militaries",
+        "Attacks",
+        "Change password",
+        "Logout", //todo remove account
     };
     enum UserMenuOptions input = (enum UserMenuOptions)open_menu(user_menu_title, user_menu_options, 7);
 
