@@ -6,7 +6,6 @@
 
 enum MenuOptions { LOGIN = 1, REGISTER, EXIT };
 
-
 int main() {
     bool exited = false;
     while(!exited){

@@ -69,6 +69,7 @@ void register_user_ui() {
 }
 
 void login_user_ui(bool wrong_user) {
+    //todo no recursive
     char username[11];
     char password[11];
 
@@ -190,14 +191,17 @@ void change_password_ui(user* player) {
 }
 
 user *register_user(char username[11], char password[11]) {
-    struct UserInfo user_info;
-    user_info.id = get_last_user_id() + 1;
-    strcpy(user_info.username, username);
-    user_info.encrypted_password = encrypt_password(password);
+    struct UserInfo *user_info = (struct UserInfo*) malloc(sizeof(user_info));
+    user_info->id = get_last_user_id() + 1;
+    strcpy(user_info->username, username);
+    user_info->encrypted_password = encrypt_password(password);
     add_user(user_info);
     user *registered_user = (user *) malloc(sizeof(user));
-    registered_user->id = user_info.id;
+    registered_user->id = user_info->id;
     strcpy(registered_user->username, username);
+
+    free(user_info);
+
     return registered_user;
 }
 

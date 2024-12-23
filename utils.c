@@ -8,7 +8,7 @@
 int str2int(char* string, int length) {
     int result=0;
     int i;
-    for (i = 0; i<length; ++i) {
+    for (i = 0; i<length && string[i]!='\0'; ++i) {
         result = 10*result + ((int)string[i] - (int)'0');
     }
     return result;
@@ -26,10 +26,10 @@ int encrypt_password(char *password) {
 
 void add_whitespace(char* string, int str_size) {
     int i;
-    for (i = strlen(string); i < str_size; ++i) {
+    for (i = strlen(string); i < str_size-1; ++i) {
         string[i] = ' ';
     }
-    string[str_size+1] = '\0';
+    string[str_size-1] = '\0';
 }
 
 void end_string(char* string) {
@@ -52,6 +52,7 @@ int open_menu(char* title, char** options, int options_count) {
     int i;
     for (i = 0; i < options_count; ++i)
         printf("  %d - %s\n", i+1, options[i]);
+    printf("\n");
 
     int input;
     scanf("%d", &input);

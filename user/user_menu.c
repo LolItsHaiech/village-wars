@@ -51,9 +51,8 @@ void user_menu_ui(user *player) {
             change_password_ui(player);
             break;
         case LOGOUT: // todo are you sure?,
-            // todo go to main menu
             free(player);
-            return; // todo sends to main menu
+            return;
     }
 
 
