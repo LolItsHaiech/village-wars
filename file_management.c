@@ -58,6 +58,12 @@ void get_user_property(char* output, int output_size, int id, enum UserFileLine 
     fclose(user_file);
 }
 
+int get_user_property(int id, enum UserFileLine property) {
+    char result[30];
+    get_user_property(result, 30, id, property);
+    return str2int(result, 30);
+}
+
 void set_user_property(char *new_name, int id, enum UserFileLine property) {
     char file_name[50];
     sprintf(file_name, USER_FILE, id);
