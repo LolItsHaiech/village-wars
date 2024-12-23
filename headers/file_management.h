@@ -30,7 +30,6 @@ void add_user(struct UserInfo*);
 void add_user_to_file(struct UserInfo*, FILE*);
 void set_user_property(char*, int, enum UserFileLine);
 void get_user_property(char*, int, int, enum UserFileLine);
-int get_user_property(int, enum UserFileLine);
 bool change_password(int, char[11], char[11]);
 
 #endif //FILE_MANAGEMENT_H

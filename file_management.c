@@ -64,8 +64,6 @@ void set_user_property(char *new_name, int id, enum UserFileLine property) {
     set_file_line(new_name, file_name, (int) property);
 }
 
-int get_user_property(int id, enum UserFileLine property);
-
 int get_last_user_id() {
     FILE *user_file = fopen(USERS_FILE, "r");
     char user_string[22];
