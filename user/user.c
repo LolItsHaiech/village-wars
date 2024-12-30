@@ -1,220 +1,111 @@
-#include "../headers/user.h"
+#include "user.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../headers/file_management.h"
-#include "../headers/user_menu.h"
-#include "../headers/utils.h"
+#include "../file_management.h"
+#include "../utils/input.h"
+#include "user_menu.h"
+#include "../utils/utils.h"
 
 
 void register_user_ui() {
-    char username[11];
-    char password[11], confirm_password[11];
-
     system("cls");
 
-    printf("Register\n\n");
-
-
     while (1) {
-        printf("Username: ");
-        fgets(username, 11, stdin);
-        fflush(stdin);
-        if (strchr(username, ' ')) {
-            printf("Username can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        end_string(username);
-        break;
-    }
-
-    while (1) {
-        printf("Password: ");
-        fgets(password, 11, stdin);
-        fflush(stdin);
-        if (strchr(password, ' ')) {
-            printf("Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        break;
-    }
-
-    while (1) {
-        printf("Confirm password: ");
-        fgets(confirm_password, 11, stdin);
-        fflush(stdin);
-        if (strchr(confirm_password, ' ')) {
-            printf("Confirm Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        if (strcmp(password, confirm_password) != 0) {
-            printf("Password and confirm password do not match.\n");
-            printf("Try again.\n");
-            continue;
-        }
-        break;
-    }
-
-    end_string(password);
-    end_string(confirm_password);
+        char username[11];
+        char password[11], confirm_password[11];
 
 
-    user *player = register_user(username, password);
-    user_menu_ui(player);
-}
+        printf("Register\n\n");
 
-void login_user_ui(bool wrong_user) {
-    //todo no recursive
-    char username[11];
-    char password[11];
+        while (!read_str_input("Username", username, 11, (bool (*[])(char *)){&unique_username_filter}, 1));
+        while (!read_str_input("Password", password, 11, NULL, 0)); //todo minimum length filter
+        while (!read_str_input("Confirm password", confirm_password, 11, NULL, 0));
 
-    system("cls");
-
-    if (wrong_user) {
-        printf("Wrong username or password.\n");
-        printf("Try again.\n");
-    }
-
-
-    printf("Login\n\n");
-
-    while (1) {
-        printf("Username: "); // todo unique, no :
-        fgets(username, 11, stdin);
-        fflush(stdin);
-        if (strchr(username, ' ')) {
-            printf("Username can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        end_string(username);
-        break;
-    }
-
-    while (1) {
-        printf("Password: ");
-        fgets(password, 11, stdin);
-        fflush(stdin);
-        if (strchr(password, ' ')) {
-            printf("Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        end_string(password);
-        break;
-    }
-
-
-    user *player = login_user(username, password);
-
-    if (player == NULL) {
-        login_user_ui(true);
-    }
-
-
-    user_menu_ui(player);
-}
-
-
-void change_password_ui(user* player) {
-    char old_password[11];
-    char new_password[11];
-    char new_password_confirm[11];
-
-
-    system("cls");
-    printf("Change password\n\n");
-
-
-    while (1) {
-        printf("Old password: ");
-        fgets(old_password, 11, stdin);
-        fflush(stdin);
-        if (strchr(old_password, ' ')) {
-            printf("Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        break;
-    }
-    while (1) {
-        printf("New password: ");
-        fgets(new_password, 11, stdin);
-        fflush(stdin);
-        if (strchr(new_password, ' ')) {
-            printf("Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        break;
-    }
-    while (1) {
-        printf("Confirm password: ");
-        fgets(new_password_confirm, 11, stdin);
-        fflush(stdin);
-        if (strchr(new_password_confirm, ' ')) {
-            printf("Confirm Password can't contain the character space. (' ')\n");
-            printf("Try again.\n");
-            continue;
-        }
-        if (strcmp(new_password, new_password_confirm) != 0) {
-            printf("Password and confirm password do not match.\n");
-            printf("Try again.\n");
-            continue;
-        }
-        break;
-    }
-
-    end_string(old_password);
-    end_string(new_password);
-    end_string(new_password_confirm);
-
-    if(change_password(player->id, old_password,new_password)) {
-        user_menu_ui(player);
-    } else {
-        char inp;
-        printf("\nPassword was not right\n");
-        printf("Try again?(y/n)");
-        scanf("%c", &inp);
-        fflush(stdin);
-        if(inp=='y') {
-            change_password_ui(player);
-        } else { //todo what if not n
+        if (strcmp(password, confirm_password) == 0) {
+            user *player = register_user(username, password);
             user_menu_ui(player);
+            break;
         }
+
+        printf("Password and confirm password didn't match.\n\n");
+    }
+}
+
+
+void login_user_ui() {
+    while (1) {
+        char username[11];
+        char password[11];
+
+        system("cls");
+
+        printf("Login\n\n");
+
+        while (!read_str_input("Username", username, 11, NULL, 0));
+        while (!read_str_input("Password", password, 11, NULL, 0));
+
+
+        user *player = get_user(username, password);
+
+        if (player == NULL) {
+            printf("Username or password is wrong!\n");
+            if(!read_confirmation("Try again?", false)) {
+                return;
+            }
+        } else {
+            user_menu_ui(player);
+            return;
+        }
+    }
+}
+
+
+void change_password_ui(user *player) {
+    bool exited = false;
+    while (!exited) {
+        char old_password[11];
+        char new_password[11];
+        char new_password_confirm[11];
+
+        system("cls");
+
+        printf("Change password\n\n");
+
+
+        while (!read_str_input("Old password", old_password, 11, NULL, 0));
+        while (!read_str_input("New password", new_password, 11, NULL, 0));
+        while (!read_str_input("Confirm New password", new_password_confirm, 11, NULL, 0));
+
+        if (strcmp(new_password, new_password_confirm) != 0) {
+            printf("New password and its confirmation are not the same.\n");
+            exited = !read_confirmation("Try Again?", false);
+            continue;
+        }
+
+        if (player->encrypted_password != encrypt_password(old_password)) {
+            printf("Old password is incorrect.\n");
+            exited = !read_confirmation("Try Again?", false);
+            continue;
+        }
+
+        player->encrypted_password = encrypt_password(new_password);
+        save_user(player);
+        break;
     }
 }
 
 user *register_user(char username[11], char password[11]) {
-    struct UserInfo *user_info = (struct UserInfo*) malloc(sizeof(user_info));
-    user_info->id = get_last_user_id() + 1;
-    strcpy(user_info->username, username);
-    user_info->encrypted_password = encrypt_password(password);
-    add_user(user_info);
     user *registered_user = (user *) malloc(sizeof(user));
-    registered_user->id = user_info->id;
+    registered_user->id = get_last_user_id() + 1;
     strcpy(registered_user->username, username);
-
-    free(user_info);
-
+    strcpy(registered_user->village_name, username);
+    registered_user->encrypted_password = encrypt_password(password);
+    registered_user->resources.food_count = 0;
+    registered_user->resources.wood_count = 0;
+    registered_user->resources.stone_count = 0;
+    add_user(registered_user);
     return registered_user;
-}
-
-user *login_user(char username[11], char password[11]) {
-    int id = get_user_id(username, password);
-    if (id == -1) {
-        return NULL;
-    }
-
-    user* logged_in_user = (user *) malloc(sizeof(user));
-
-    logged_in_user->id = id;
-    strcpy(logged_in_user->username, username);
-
-    return logged_in_user;
 }

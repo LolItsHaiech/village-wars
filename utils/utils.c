@@ -1,19 +1,8 @@
-#include "headers/utils.h"
+#include "utils.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-int str2int(char* string, int length) {
-    int result=0;
-    int i;
-    for (i = 0; i<length && string[i]!='\0'; ++i) {
-        result = 10*result + ((int)string[i] - (int)'0');
-    }
-    return result;
-}
-
 
 int encrypt_password(char *password) {
     int res = 0;
@@ -24,19 +13,10 @@ int encrypt_password(char *password) {
 }
 
 
-void add_whitespace(char* string, int str_size) {
-    int i;
-    for (i = strlen(string); i < str_size-1; ++i) {
-        string[i] = ' ';
-    }
-    string[str_size-1] = '\0';
-}
-
 void end_string(char* string) {
     int i=0;
     while(1) {
-        if(string[i] == '\n' || string[i] == ' ' ||
-            string[i] == '\0' || string[i] == ':') {
+        if(string[i] == '\n' || string[i] == '\0') {
 
             string[i] = '\0';
             return;

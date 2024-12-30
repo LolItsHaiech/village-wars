@@ -1,43 +1,29 @@
-#include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include "headers/user.h"
-#include "headers/utils.h"
+#include "utils/input.h"
+#include "user/user.h"
+#include "utils/utils.h"
 
 enum MenuOptions { LOGIN = 1, REGISTER, EXIT };
 
 int main() {
     bool exited = false;
-    while(!exited){
-        char* main_menu_options[3] = {
+    while (!exited) {
+        char *main_menu_options[3] = {
             "Login",
             "Register",
             "Exit"
         };
-        enum MenuOptions input = (enum MenuOptions) open_menu("Main Menu", main_menu_options , 3);
+        enum MenuOptions input = (enum MenuOptions) open_menu("Main Menu", main_menu_options, 3);
 
         switch (input) {
             case LOGIN:
-                login_user_ui(false);
-            break;
+                login_user_ui();
+                break;
             case REGISTER:
                 register_user_ui();
-            break;
+                break;
             case EXIT:
-                char sure;
-            while (1) {
-                system("cls");
-                printf("Are you sure?(y/n)\n");
-                scanf("%c", &sure);
-                fflush(stdin);
-                if (sure == 'y') {
-                    exited=true;
-                    break;
-                }
-                if (sure == 'n') {
-                    break;
-                }
-            }
+                exited = read_confirmation("Are you sure?", true);
         }
     }
     return 0;
