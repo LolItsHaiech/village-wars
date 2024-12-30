@@ -6,6 +6,7 @@ enum Resouce {
     WOOD,
     FOOD,
     STONE
+
 };
 
 enum Buildings {
