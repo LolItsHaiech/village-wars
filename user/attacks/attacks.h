@@ -4,7 +4,7 @@
 
 #include "../user.h"
 
-enum AttackStatus {ON_THE_WAY, IN_PROGRESS, ON_THE_WAY_BACK, DONE};
+enum AttackStatus { ON_THE_WAY, IN_PROGRESS, ON_THE_WAY_BACK, DONE };
 
 struct Soldiers {
     int warrior;
@@ -28,8 +28,11 @@ typedef struct attack {
 } attack;
 
 void attack_ui(user *player);
+
 void new_attack_ui(user *player);
-void view_attacks_ui(user* player);
-void attacks_history_ui(user* player);
+
+void view_attacks_ui(user *player);
+
+void attacks_history_ui(user *player);
 
 #endif //ATTACKS_H

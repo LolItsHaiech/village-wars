@@ -1,9 +1,7 @@
 #include "input.h"
-#include<stdbool.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
 #include "utils.h"
 
 bool read_str_input(char *title, char *output, int output_size, bool (*filters[])(char *), int filter_count) {

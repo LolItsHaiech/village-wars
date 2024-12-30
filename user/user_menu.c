@@ -20,6 +20,7 @@ enum UserMenuOptions {
 void rename_village_ui(user *);
 
 void resources_ui(user* player) {
+    //todo
 }
 
 void user_menu_ui(user *player) {
