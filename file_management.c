@@ -1,27 +1,23 @@
 #include "file_management.h"
-
-#include <locale.h>
-
 #include "user/attacks/attacks.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "user/user.h"
 
 // todo ask before removing file
 
-void save_user(user* input_user) {
+bool save_user(user* input_user) {
     FILE *users_file = fopen(USERS_FILE, "r");
 
     if (users_file == NULL) {
         users_file = fopen(USERS_FILE, "w");
         if (users_file == NULL) {
-            return;
+            return false;
         }
         fwrite(input_user, sizeof(user), 1, users_file);
         fclose(users_file);
-        return;
+        return false;
     }
 
     FILE *temp_file = fopen(TEMP_FILE, "w");
@@ -31,10 +27,13 @@ void save_user(user* input_user) {
         temp_file = fopen(TEMP_FILE, "w");
     }
 
-    while (!feof(users_file)) {
-        user temp_user;
-        fread(&temp_user, sizeof(user), 1, users_file);
+
+    bool saved = false;
+
+    user temp_user;
+    while (fread(&temp_user, sizeof(user), 1, users_file)) {
         if (input_user->id == temp_user.id) {
+            saved = true;
             fwrite(input_user, sizeof(user), 1, temp_file);
         } else {
             fwrite(&temp_user, sizeof(user), 1, temp_file);
@@ -46,6 +45,7 @@ void save_user(user* input_user) {
 
     remove(USERS_FILE);
     rename(TEMP_FILE, USERS_FILE);
+    return saved;
 }
 
 int get_last_user_id() {
@@ -83,24 +83,23 @@ user *get_user(char username[11], char password[11]) {
     return NULL;
 }
 
-void get_username_by_id(char output[], int id) {
+user* get_user_by_id(int id) {
     FILE *users_file = fopen(USERS_FILE, "r");
 
     if (users_file == NULL) {
-        strcpy(output, "<Unknown>");
-        return;
+        return NULL;
     }
 
     while (!feof(users_file)) {
-        user cur_user;
-        fread(&cur_user, sizeof(user), 1, users_file);
-        if (cur_user.id == id) {
-            strcpy(output, cur_user.username);
+        user *cur_user = (user*) malloc (sizeof(user));
+        fread(cur_user, sizeof(user), 1, users_file);
+        if (cur_user->id == id) {
             fclose(users_file);
-            return;
+            return cur_user;
         }
     }
     fclose(users_file);
+    return NULL;
 }
 
 void add_user(user *player) {
@@ -136,14 +135,14 @@ user *get_all_users_expect(int *output_count, user *excluded_user) {
     if (users_file == NULL)
         return NULL;
     user *output = NULL; //todo?
-    while (feof(users_file)) {
-        user temp;
-        fread(&temp, sizeof(user), 1, users_file);
+    user temp;
+    while (fread(&temp, sizeof(user), 1, users_file)) {
         if (temp.id != excluded_user->id) {
             output = realloc(output, ((*output_count) + 1) * sizeof(user));
             output[(*output_count)++] = temp;
         }
     }
+    fclose(users_file);
     return output;
 }
 
@@ -167,7 +166,6 @@ attack *get_user_attacks(int *attacks_count, int id, bool done) {
     if (!feof(attacks_file)) {
         attack_arr = realloc(attack_arr, (*attacks_count + 1) * sizeof(attack));
         fread(&attack_arr[*attacks_count], sizeof(attack), 1, attacks_file);
-        //todo like this?
         if ((attack_arr[*attacks_count].attacker_user_id == id || attack_arr[*attacks_count].attacked_user_id == id) &&
             ((done && attack_arr[*attacks_count].status == DONE) ||
             ((!done && attack_arr[*attacks_count].status != DONE)))) {
@@ -225,6 +223,6 @@ void save_attack(attack* input_attack) {
     fclose(attacks_file);
     fclose(temp_file);
 
-    remove(USERS_FILE);
-    rename(TEMP_FILE, USERS_FILE);
+    remove(ATTACKS_FILE);
+    rename(TEMP_FILE, ATTACKS_FILE);
 }

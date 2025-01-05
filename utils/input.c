@@ -25,7 +25,7 @@ int read_int_input(char* title, int min, int max) {
         fflush(stdin);
         if (res>=min && res <= max)
             return res;
-        printf("%s can't be less that %d or more than %d.", title, min, max);
+        printf("%s can't be less that %d or more than %d.\n", title, min, max);
     }
 }
 

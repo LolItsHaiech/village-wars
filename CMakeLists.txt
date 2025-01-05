@@ -21,4 +21,6 @@ add_executable(village_wars main.c
         user/attacks/attacks.h
         utils/time.c
         utils/time.h
+        user/resources/resources.c
+        user/resources/resources.h
 )

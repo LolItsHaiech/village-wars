@@ -106,6 +106,10 @@ user *register_user(char username[11], char password[11]) {
     registered_user->resources.food_count = 0;
     registered_user->resources.wood_count = 0;
     registered_user->resources.stone_count = 0;
+
+    registered_user->soldiers_count.warrior = 0;
+    registered_user->soldiers_count.archer = 0;
+    registered_user->soldiers_count.rider = 0;
     add_user(registered_user);
     return registered_user;
 }

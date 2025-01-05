@@ -19,10 +19,6 @@ enum UserMenuOptions {
 
 void rename_village_ui(user *);
 
-void resources_ui(user* player) {
-    //todo
-}
-
 void user_menu_ui(user *player) {
     bool exited = false;
     while (!exited) {
@@ -51,13 +47,14 @@ void user_menu_ui(user *player) {
             case MILITARIES:
                 break;
             case ATTACKS:
+                attack_ui(player);
                 break;
             case CHANGE_PASSWORD:
                 change_password_ui(player);
                 break;
-                // todo go to main menu; in register or login/ in rename, change_password...
             case LOGOUT:
                 if (read_confirmation("Are you sure?", true)) {
+                    save_user(player);
                     free(player);
                     exited = true;
                 }
