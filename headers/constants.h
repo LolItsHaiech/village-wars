@@ -67,17 +67,19 @@ const int stone_storage_capacity[5] = {400,800,1200,1600,2000};
 const int food_storage_capacity[5] = {600,1000,1400,2000,2600};
 
 
-// barrack_requirements[i] => upgrade from lvl i to lvl i+1
-const struct barrack_requirements barrack_requirements[5] {
+
+const struct barrack_requirements barrack_requirement[5]= {
     {100, 50, 50, 600},
     {150, 75, 90, 1800},
     {200, 100, 190, 2100},
     {250, 125, 250, 2400},
-    {300, 150, 450, 3000},
+    {300, 150, 450, 3000}
 };
 
 const struct soldier_requirements warrior_requirements = {50, 30, 20};
 const struct soldier_requirements archer_requirements = {75, 30, 30};
 const struct soldier_requirements rider_requirements = {100, 50, 60};
-
+const char *name_resource[3] = {"WOOD", "FOOD", "STONE"};
+const char *name_building[4] ={"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE","BARRACK"};
+const char *status_construct[4] = {"ADD", "UP", "DEL","-"};
 #endif //UPGRADE_REQUIREMENTS_H
