@@ -1,11 +1,19 @@
 #ifndef USER_H
 #define USER_H
 #include <stdbool.h>
-
+#include <time.h>
 enum Resouce {
     WOOD,
     FOOD,
     STONE
+};
+enum staus{
+  adding,
+  upgrading,
+  deleting,
+  finished
+
+
 };
 
 enum Buildings {
@@ -38,11 +46,19 @@ typedef struct user {
         enum Resouce resource;
         int lvl;
         bool is_working;
+        enum staus status;
+        time_t change_time;
+        time_t finishing_time;
+         int collect_rate;
     } resources_generators[6];
 
     struct {
         enum Buildings building_type;
         int lvl;
+        time_t change_time;
+     time_t finishing_time;
+        int storage;
+        enum staus status;
     } buildings[6];
 } user;
 
