@@ -22,6 +22,7 @@ enum Buildings {
 };
 
 typedef struct user {
+
     int id;
     char username[11];
     char village_name[11];
