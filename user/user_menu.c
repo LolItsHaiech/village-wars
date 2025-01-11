@@ -6,6 +6,9 @@
 #include "user.h"
 #include "../utils/utils.h"
 
+#include "resources_building/view_resources.h"
+#include "resources_building/view_building.h"
+
 enum UserMenuOptions {
     RENAME_VILLAGE = 1,
     RESOURCES,
@@ -41,8 +44,10 @@ void user_menu_ui(user *player) {
                 rename_village_ui(player);
                 break;
             case RESOURCES:
+                view_resources(player);
                 break;
             case BUILDINGS:
+                view_building(player);
                 break;
             case MILITARIES:
                 break;

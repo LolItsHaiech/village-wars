@@ -89,4 +89,9 @@ const struct soldier_stats archer_stats = {15, 4};
 const struct soldier_stats rider_stats = {20, 7};
 
 
+const char *name_resource[3] = {"WOOD", "FOOD", "STONE"};
+const char *name_building[4] ={"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE","BARRACK"};
+const char *status_construct[4] = {"ADD", "UP", "DEL","-"};
+
+
 #endif //UPGRADE_REQUIREMENTS_H
