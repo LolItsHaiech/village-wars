@@ -20,7 +20,7 @@ void view_building(user *player) {
     while (return_back == 0) {
         int i, numbers_building = 0;
         for (i = 0; i < 6; i++)
-            if (player->buildings[i].lvl != 0 || player->buildings[i].status == deleting) {
+            if (player->buildings[i].lvl != 0 || player->buildings[i].status == DELETING) {
                 numbers_building++;
                 state[numbers_building] = i;
             }
@@ -40,7 +40,7 @@ void view_building(user *player) {
         }
         if (1 <= choice && choice <= numbers_building) {
             time_t now = time(NULL);
-            if (player->buildings[state[choice - 1]].status == finished)
+            if (player->buildings[state[choice - 1]].status == FINISHED)
                 printf("your choice is finished");
             else if (now < player->buildings[state[choice - 1]].finishing_time) {
                 printf("the time to comlete the process is not over yet");

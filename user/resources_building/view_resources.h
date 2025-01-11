@@ -1,11 +1,10 @@
 #ifndef VIEW_RESOURCE_H
 #define VIEW_RESOURCE_H
 #include<stdio.h>
-#include"../user.h"
 #include <time.h>
-#include"../../headers/constants.h"
-#include "printboard_resource.h"
 #include "../../file_management.h"
+#include "../user.h"
+#include "printboard_resource.h"
 
 
 //todo arrname
@@ -14,7 +13,7 @@ void view_resources(user *player) {
     int return_back = 0, choice;
     int i, number_resources = 0;
     for (i = 0; i < 6; i++)
-        if (player->resources_generators[i].lvl != 0 || player->resources_generators[i].status == deleting) {
+        if (player->resources_generators[i].lvl != 0 || player->resources_generators[i].status == DELETING) {
             number_resources++;
             state[number_resources] = i;
         }
@@ -36,7 +35,7 @@ void view_resources(user *player) {
 
         if (1 <= choice && choice <= number_resources) {
             time_t now = time(NULL);
-            if (player->resources_generators[state[choice - 1]].status == finished)
+            if (player->resources_generators[state[choice - 1]].status == FINISHED)
                 printf("your choice is finished");
 
             else if (now < player->resources_generators[state[choice - 1]].finishing_time) {
@@ -46,7 +45,7 @@ void view_resources(user *player) {
                 printf("resores %s were successfuly %s",
                        name_resource[(int) player->resources_generators[state[choice - 1]].resource],
                        player->resources_generators[state[choice - 1]].status);
-                player->resources_generators[state[choice - 1]].status = finished;
+                player->resources_generators[state[choice - 1]].status = FINISHED;
                 player->resources_generators[state[choice - 1]].finishing_time = now;
                 save_user(player);
             }

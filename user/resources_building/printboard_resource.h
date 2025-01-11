@@ -4,14 +4,14 @@
 #include<stdio.h>
 #include"../user.h"
 #include <time.h>
-#include"../../headers/constants.h"
+#include "../../headers/constants.h"
 
 
 void printview_resource(user *player) {
     int i, counter = 1;
     printf("resources");
     for (i = 0; i < 6; i++) {
-        if (player->resources_generators[i].lvl != 0 || player->resources_generators[i].status == deleting) {
+        if (player->resources_generators[i].lvl != 0 || player->resources_generators[i].status == DELETING) {
             //todo   pint time
             printf("\n  %d\t%s\t%d\t%d\t%d\t%d\t%s\n", counter,
                    name_resource[(int) player->resources_generators[i].resource],
@@ -29,7 +29,7 @@ void printview_building(user *player) {
     int i, counter = 1;
     printf("building");
     for (i = 0; i < 6; i++) {
-        if (player->buildings[i].lvl != 0 || player->buildings[i].status == deleting) {
+        if (player->buildings[i].lvl != 0 || player->buildings[i].status == DELETING) {
             printf("\n  %d\t%s\t%d\t%d\t%d\t%d\t%s\n", counter, name_building[player->buildings[i].building_type],
                    player->buildings[i].lvl, player->buildings[i].storage,
                    player->buildings[i].change_time, player->buildings[i].finishing_time,
@@ -45,7 +45,7 @@ void printboard_delete_up_resource(user *player) {
     int i, counter = 1;
     printf("resources:");
     for (i = 0; i < 6; i++) {
-        if (player->resources_generators[i].lvl != 0 && player->resources_generators[i].status == finished) {
+        if (player->resources_generators[i].lvl != 0 && player->resources_generators[i].status == FINISHED) {
             printf("\n  %d\t%s\t%d\t%d\n", counter, name_resource[(int) player->resources_generators[i].resource],
                    player->resources_generators[i].lvl, player->resources_generators[i].collect_rate);
             counter++;
@@ -61,7 +61,7 @@ void printboard_delete_up_building(user *player) {
     for (i = 0; i < 6; i++) {
         printf("building:");
 
-        if (player->buildings[i].lvl != 0 && player->buildings[i].status == finished) {
+        if (player->buildings[i].lvl != 0 && player->buildings[i].status == FINISHED) {
             printf("\n  %d\t%s\t%d\t%d\n", counter, name_building[player->buildings[i].building_type],
                    player->buildings[i].lvl, player->buildings[i].storage);
             counter++;
@@ -85,7 +85,7 @@ int print_collectboard(user *player, int state[], time_t now) {
     int i, counter = 1;
     printf("resources");
     for (i = 0; i < 6; i++) {
-        if (player->resources_generators[i].lvl != 0 && player->resources_generators[i].status == finished) {
+        if (player->resources_generators[i].lvl != 0 && player->resources_generators[i].status == FINISHED) {
             state[counter - 1] = i;
             int number_of_collectnow = ((now - player->resources_generators[i].finishing_time) / CLOCKS_PER_SEC) *
                                        player->resources_generators[i].collect_rate;

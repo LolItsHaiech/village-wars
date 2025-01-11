@@ -9,7 +9,7 @@
 #include "number_of_building.h"
 #include "capacity.h"
 
-void add_new_building(user *player) {
+inline void add_new_building(user *player) {
     int return_back = 0;
     //todo enum choice
     while (return_back == 0) {
@@ -51,7 +51,7 @@ void add_new_building(user *player) {
                         player->buildings[empty_building].building_type = WOOD_STORAGE;
 
                         set_time(player, 2, empty_building, 180);
-                        player->buildings[empty_building].status = adding;
+                        player->buildings[empty_building].status = ADDING;
                         capcity(player, WOOD_STORAGE, empty_building, 1);
                         save_user(player);
 
@@ -65,7 +65,7 @@ void add_new_building(user *player) {
                         player->buildings[empty_building].building_type = FOOD_STORAGE;
                         set_time(player, 2, empty_building, 180);
 
-                        player->buildings[empty_building].status = adding;
+                        player->buildings[empty_building].status = ADDING;
                         capcity(player, FOOD_STORAGE, empty_building, 1);
                         save_user(player);
 
@@ -89,7 +89,7 @@ void add_new_building(user *player) {
                             capcity(player, BARRACK, empty_building, 1);
 
                             player->buildings[empty_building].lvl = 1;
-                            player->buildings[empty_building].status = adding;
+                            player->buildings[empty_building].status = ADDING;
                             save_user(player);
                         }
 

@@ -1,15 +1,15 @@
 #ifndef ADD_RESOURCE_H
 #define ADD_RESOURCE_H
-#include<stdio.h>
-#include"../user.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include"../user.h"
 #include "printboard_resource.h"
 #include "set_time.h"
 #include "number_of_resources.h"
 #include "../../file_management.h"
 
 void add_new_resources(user *player) {
-    int choic, i, return_back = 0;
+    int choice, i, return_back = 0;
 
     while (return_back == 0) {
         system("cls");
@@ -40,7 +40,7 @@ void add_new_resources(user *player) {
                     return_back = 1;
                     break;
                 }
-                switch ((Resouce)(choice)) {
+                switch ((enum Resource)(choice)) {
                     case WOOD:
 
 

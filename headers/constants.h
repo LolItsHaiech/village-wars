@@ -1,5 +1,5 @@
-#ifndef UPGRADE_REQUIREMENTS_H
-#define UPGRADE_REQUIREMENTS_H
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 struct resource_requirements {
     int wood, stone, time;
@@ -61,6 +61,7 @@ const struct resource_requirements food_storage_reqs[4] = {
     {300, 150, 1200},
 };
 
+
 // wood_rate[i] => wood rate of level i+1
 const int wood_rate_per_minute[5] = {15,30,45,60,80};
 const int stone_rate_per_minute[5] = {10,20,30,40,50};
@@ -69,16 +70,6 @@ const int food_rate_per_minute[5] = {35,50,75,90,120};
 const int wood_storage_capacity[5] = {500, 1000, 1500, 2000, 2500};
 const int stone_storage_capacity[5] = {400,800,1200,1600,2000};
 const int food_storage_capacity[5] = {600,1000,1400,2000,2600};
-
-
-// barrack_requirements[i] => upgrade from lvl i to lvl i+1
-const struct barrack_requirements barrack_reqs[5] = {
-    {100, 50, 50, 600},
-    {150, 75, 90, 1800},
-    {200, 100, 190, 2100},
-    {250, 125, 250, 2400},
-    {300, 150, 450, 3000},
-};
 
 const struct soldier_requirements warrior_requirements = {50, 30, 20};
 const struct soldier_requirements archer_requirements = {75, 30, 30};
@@ -92,6 +83,16 @@ const struct soldier_stats rider_stats = {20, 7};
 const char *name_resource[3] = {"WOOD", "FOOD", "STONE"};
 const char *name_building[4] ={"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE","BARRACK"};
 const char *status_construct[4] = {"ADD", "UP", "DEL","-"};
+
+// barrack_requirements[i] => upgrade from lvl i to lvl i+1
+const struct barrack_requirements barrack_reqs[5] = {
+    {100, 50, 50, 600},
+    {150, 75, 90, 1800},
+    {200, 100, 190, 2100},
+    {250, 125, 250, 2400},
+    {300, 150, 450, 3000},
+};
+
 
 
 #endif //UPGRADE_REQUIREMENTS_H
