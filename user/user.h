@@ -2,17 +2,17 @@
 #define USER_H
 #include <stdbool.h>
 
+enum Resouce {
+    WOOD,
+    FOOD,
+    STONE
+};
+
 enum Buildings {
     FOOD_STORAGE,
     WOOD_STORAGE,
     STONE_STORAGE,
     BARRACK
-};
-
-enum Resource {
-    WOOD,
-    FOOD,
-    STONE
 };
 
 typedef struct user {
@@ -35,7 +35,7 @@ typedef struct user {
     } soldiers_count;
 
     struct {
-        enum Resource resource;
+        enum Resouce resource;
         int lvl;
         bool is_working;
     } resources_generators[6];
