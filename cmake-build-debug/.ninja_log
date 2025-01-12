@@ -1,19 +1,17 @@
 # ninja log v6
-3	65	7582918005478122	CMakeFiles/village_wars.dir/main.c.obj	b3684444f5d969bf
+2	111	7583943882571478	CMakeFiles/village_wars.dir/main.c.obj	b3684444f5d969bf
 8	62	7562218214267283	CMakeFiles/village_wars.dir/user.c.obj	ad37c5d1221fc902
 24	284	7566692406396609	CMakeFiles/village_wars.dir/utils.c.obj	92b69bedd1c2beb5
 8	94	7582918005538132	CMakeFiles/village_wars.dir/file_management.c.obj	5a22dc04a44ac744
 6	83	7582918005508127	CMakeFiles/village_wars.dir/user/user.c.obj	4b38ae07c7eb3b78
 117	342	7582879229772810	village_wars.exe	db4e7247b7c15d43
-1	167	7583686874183091	build.ninja	4a6f45c2c63d005e
-14	935	7583685835602759	CMakeFiles/village_wars.dir/user/user_menu.c.obj	f34e9b55fffa3df
+2	224	7583944271996247	build.ninja	4a6f45c2c63d005e
+8	237	7583687042094319	CMakeFiles/village_wars.dir/user/user_menu.c.obj	f34e9b55fffa3df
 15	131	7582876833565768	CMakeFiles/village_wars.dir/utils/input.c.obj	84b7563ef536758c
 10	130	7582876833525768	CMakeFiles/village_wars.dir/utils/utils.c.obj	6cafc7f6ad60287
-35	933	7583685835876769	CMakeFiles/village_wars.dir/user/attacks/attacks.c.obj	98740a7401c1f530
-15	75	7582918005598134	CMakeFiles/village_wars.dir/user/military/miliraty.c.obj	736f2c93027553f2
-29	131	7582876833715771	CMakeFiles/village_wars.dir/utils/time.c.obj	7803d9ee979b1ede
-21	77	7582918005668134	CMakeFiles/village_wars.dir/user/resources/resources.c.obj	e5d3cd0cdd63fa6a
-8	55	7582909012218210	CMakeFiles/village_wars.dir/headers/constants.c.obj	92751482d0697849
-15	463	7583686982933936	CMakeFiles/village_wars.dir/user/attacks/attacks.c.obj	98740a7401c1f530
-8	237	7583687042094319	CMakeFiles/village_wars.dir/user/user_menu.c.obj	f34e9b55fffa3df
 14	248	7583687042155628	CMakeFiles/village_wars.dir/user/attacks/attacks.c.obj	98740a7401c1f530
+6	130	7583941542495349	CMakeFiles/village_wars.dir/user/military/miliraty.c.obj	736f2c93027553f2
+29	131	7582876833715771	CMakeFiles/village_wars.dir/utils/time.c.obj	7803d9ee979b1ede
+6	112	7583943882601970	CMakeFiles/village_wars.dir/user/resources/resources.c.obj	e5d3cd0cdd63fa6a
+8	55	7582909012218210	CMakeFiles/village_wars.dir/headers/constants.c.obj	92751482d0697849
+3	85	7583944283302128	village_wars.exe	718e03c40d45d88f

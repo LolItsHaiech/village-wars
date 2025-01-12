@@ -1,9 +1,8 @@
 #include <stdbool.h>
-#include "utils/input.h"
 #include "user/user.h"
+#include "utils/input.h"
 #include "utils/utils.h"
 
-enum MenuOptions { LOGIN = 1, REGISTER, EXIT };
 
 int main() {
     bool exited = false;

@@ -55,60 +55,6 @@ build CMakeFiles/village_wars.dir/main.c.obj: C_COMPILER__village_wars_unscanned
   OBJECT_DIR = CMakeFiles\village_wars.dir
   OBJECT_FILE_DIR = CMakeFiles\village_wars.dir
 
-build CMakeFiles/village_wars.dir/user/user.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/user/user.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\user\user.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\user
-
-build CMakeFiles/village_wars.dir/file_management.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/file_management.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\file_management.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir
-
-build CMakeFiles/village_wars.dir/utils/utils.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/utils/utils.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\utils\utils.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\utils
-
-build CMakeFiles/village_wars.dir/user/user_menu.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/user/user_menu.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\user\user_menu.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\user
-
-build CMakeFiles/village_wars.dir/utils/input.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/utils/input.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\utils\input.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\utils
-
-build CMakeFiles/village_wars.dir/user/military/miliraty.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/user/military/miliraty.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\user\military\miliraty.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\user\military
-
-build CMakeFiles/village_wars.dir/user/attacks/attacks.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/user/attacks/attacks.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\user\attacks\attacks.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\user\attacks
-
-build CMakeFiles/village_wars.dir/utils/time.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/utils/time.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\utils\time.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\utils
-
-build CMakeFiles/village_wars.dir/user/resources/resources.c.obj: C_COMPILER__village_wars_unscanned_Debug D$:/programming/CLion/project/village_wars/user/resources/resources.c || cmake_object_order_depends_target_village_wars
-  DEP_FILE = CMakeFiles\village_wars.dir\user\resources\resources.c.obj.d
-  FLAGS = -g -std=gnu90 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\village_wars.dir
-  OBJECT_FILE_DIR = CMakeFiles\village_wars.dir\user\resources
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target village_wars
@@ -117,7 +63,7 @@ build CMakeFiles/village_wars.dir/user/resources/resources.c.obj: C_COMPILER__vi
 #############################################
 # Link the executable village_wars.exe
 
-build village_wars.exe: C_EXECUTABLE_LINKER__village_wars_Debug CMakeFiles/village_wars.dir/main.c.obj CMakeFiles/village_wars.dir/user/user.c.obj CMakeFiles/village_wars.dir/file_management.c.obj CMakeFiles/village_wars.dir/utils/utils.c.obj CMakeFiles/village_wars.dir/user/user_menu.c.obj CMakeFiles/village_wars.dir/utils/input.c.obj CMakeFiles/village_wars.dir/user/military/miliraty.c.obj CMakeFiles/village_wars.dir/user/attacks/attacks.c.obj CMakeFiles/village_wars.dir/utils/time.c.obj CMakeFiles/village_wars.dir/user/resources/resources.c.obj
+build village_wars.exe: C_EXECUTABLE_LINKER__village_wars_Debug CMakeFiles/village_wars.dir/main.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\village_wars.dir
