@@ -1,0 +1,3 @@
+D:/programming/CLion/project/village_wars/cmake-build-debug/CMakeFiles/village_wars.dir
+D:/programming/CLion/project/village_wars/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/programming/CLion/project/village_wars/cmake-build-debug/CMakeFiles/rebuild_cache.dir

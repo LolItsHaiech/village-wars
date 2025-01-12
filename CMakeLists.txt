@@ -34,5 +34,4 @@ add_executable(village_wars main.c
         user/resources_building/delete_building.h
         user/resources_building/capacity.h
         user/resources_building/building.h
-        headers/constants.c
 )

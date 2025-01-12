@@ -95,4 +95,4 @@ const struct barrack_requirements barrack_reqs[5] = {
 
 
 
-#endif //UPGRADE_REQUIREMENTS_H
+#endif
