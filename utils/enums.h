@@ -13,7 +13,7 @@ enum building_status {
     ADDING,
     UPGRADING,
     DELETING,
-    FINISHED
+    DEFAULT
 };
 
 enum Buildings {

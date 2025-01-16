@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 
-//todo: fix later
+//todo: fix later later
 inline void set_time(user *player, int type, int state, int time_needed) {
     time_t now = time(NULL);
     switch (type) {
@@ -38,7 +38,7 @@ inline int get_time_needed(bool is_build, int type, int level) {
                     break;
             }
         default:
-            switch ((enum buildings) type) {
+            switch ((enum Buildings) type) {
                 case FOOD_STORAGE:
                     time_needed = food_storage_reqs[level - 1].time;
                     break;

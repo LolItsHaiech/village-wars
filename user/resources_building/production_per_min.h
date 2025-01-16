@@ -4,16 +4,17 @@
 #include"../../headers/constants.h"
 
 
-inline void collect_source(user *player, enum Resouce resource, int state, int level) {
+//todo remove?
+inline void collect_source(user *player, enum Resource resource, int state, int level) {
     switch (resource) {
         case WOOD:
-            player->resources_generators[state].collect_rate = wood_rate_per_minute[level];
+            player->resources_generators[state].collect_rate = wood_rate_per_minute[level-1];
             break;
         case STONE:
-            player->resources_generators[state].collect_rate = stone_rate_per_minute[level];
+            player->resources_generators[state].collect_rate = stone_rate_per_minute[level-1];
             break;
         case FOOD:
-            player->resources_generators[state].collect_rate = food_rate_per_minute[level];
+            player->resources_generators[state].collect_rate = food_rate_per_minute[level-1];
             break;
     }
     save_user(player);

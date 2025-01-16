@@ -43,7 +43,6 @@ inline void delete_building(user *player) {
                 case 1:
                     system("cls");
                     printf("deleting building..... \rready to delete in  2 minutes");
-                    player->buildings[state[choice - 1]].lvl = 0;
                     set_time(player, 2, state[choice - 1], 120);
                     player->buildings[state[choice - 1]].status = DELETING;
                     save_user(player);

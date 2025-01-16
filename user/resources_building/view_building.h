@@ -4,6 +4,8 @@
 #include"../user.h"
 #include <stdlib.h>
 #include <time.h>
+
+#include "printboard_resource.h"
 #include"../../headers/constants.h"
 
 inline void view_building(user *player) {
@@ -12,12 +14,14 @@ inline void view_building(user *player) {
     while (true) {
         int i, numbers_building = 0;
         for (i = 0; i < 6; i++)
-            if (player->buildings[i].lvl != 0 || player->buildings[i].status == DELETING) {
+            if (player->buildings[i].lvl != 0) {
                 numbers_building++;
                 state[numbers_building] = i;
             }
         if (numbers_building == 0) {
             printf("your village dont have any building\n");
+            printf("Press <Enter> to continue...\n");
+            getchar();
             break;
         }
         printf("view building\n\tbuild\tlevel  \tsave source\trequset time\tfinish time\tstatus");
@@ -34,7 +38,7 @@ inline void view_building(user *player) {
 
         if (1 <= choice && choice <= numbers_building) {
             time_t now = time(NULL);
-            if (player->buildings[state[choice - 1]].status == FINISHED)
+            if (player->buildings[state[choice - 1]].status == DEFAULT)
                 printf("your choice is finished");
             else if (now < player->buildings[state[choice - 1]].finishing_time)
                 printf("the time to complete the process is not over yet");
@@ -42,7 +46,11 @@ inline void view_building(user *player) {
                 printf("build %s were successfully %s",
                        name_building[(int) player->buildings[state[choice - 1]].building_type],
                        status_construct[(int)player->buildings[state[choice - 1]].status]);
-                player->buildings[state[choice - 1]].status = 4;
+                if (player->buildings[state[choice - 1]].status == DELETING)
+                    player->buildings[state[choice - 1]].lvl = 0;
+                if (player->buildings[state[choice - 1]].status == UPGRADING)
+                    player->buildings[state[choice - 1]].lvl++;
+                player->buildings[state[choice - 1]].status = DEFAULT;
                 player->buildings[state[choice - 1]].finishing_time = now;
                 save_user(player);
             }

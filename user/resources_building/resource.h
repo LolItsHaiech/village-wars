@@ -9,13 +9,15 @@
 #include <stdlib.h>
 
 inline void resource_ui(user *player) {
-    enum choice { view_resource = 1, add_resource, upgrade_resource, delete_resource, collecting_resources };
+    enum choice { view_resource = 1,collecting_resources, add_resource, upgrade_resource, delete_resource,  };
     int main_choice;
     while (true) {
         system("cls");
+        //todo
         printf(
-            "resources:\n  1_ view resources\n  2_ collecting resources\n  3_ add new resources\n  4_ update resources\n  5_ delete resources\n  6_ return back");
+            "resources:\n  1_ view resources\n  2_ collecting resources\n  3_ add new resources\n  4_ upgrade resources\n  5_ delete resources\n  6_ return back");
         scanf("%d", &main_choice);
+        fflush(stdin);
         if (main_choice == 6)
             break;
         switch ((enum choice) main_choice) {

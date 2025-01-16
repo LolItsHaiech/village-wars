@@ -10,7 +10,7 @@
 inline void upgrade_resources(user *player) {
     int return_back = 0, number_resources, choice;
     system("cls");
-    while (return_back == 0) {
+    while (return_back == 0) { //todo
         int state[6] = {0, 0, 0, 0, 0}, count_resource[3] = {0, 0, 0};
         number_resources = number_resource(player, state, count_resource);
         if (number_resources == 0) {

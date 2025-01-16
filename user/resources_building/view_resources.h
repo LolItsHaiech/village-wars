@@ -4,43 +4,61 @@
 #include <stdbool.h>
 #include <time.h>
 #include "printboard_resource.h"
+#include "production_per_min.h"
 #include "../user.h"
 #include "../../headers/constants.h"
 
 inline void view_resources(user *player) {
-    int state[6] = {0, 0, 0, 0, 0, 0}, i, number_resources = 0, choice;
-    for (i = 0; i < 6; i++)
-        if (player->resources_generators[i].lvl != 0 || player->resources_generators[i].status == DELETING) {
-            number_resources++;
-            state[number_resources] = i;
-        }
+
+    int state[6] = {-1, -1, -1, -1, -1, -1}, i, number_resources = 0, choice;
+
     while (true) {
+        system("cls");
+
+        for (i = 0; i < 6; i++)
+            if (player->resources_generators[i].lvl != 0) {
+                number_resources++;
+                state[number_resources] = i;
+            }
         if (number_resources == 0) {
             printf("your village dont have any resources\n");
+            printf("Press <Enter> to continue...\n");
+            getchar();
             break;
         }
         printf("view resources\n\tresources\tlevel  production per min\trequset time\tfinish time\tstatus");
         printview_resource(player);
         scanf("%d", &choice);
+        fflush(stdin);
         while (1 > choice || choice > number_resources + 1) {
             printf("your choice is incorect try again");
             printview_resource(player);
             scanf("%d", &choice);
+            fflush(stdin);
+
         }
         if (choice == number_resources + 1)
             break;
 
         if (1 <= choice && choice <= number_resources) {
             time_t now = time(NULL);
-            if (player->resources_generators[state[choice - 1]].status == FINISHED)
-                printf("your choice is finished");
+            if (player->resources_generators[state[choice - 1]].status == DEFAULT)
+                printf("your choice is finished\n");
             else if (now < player->resources_generators[state[choice - 1]].finishing_time)
-                printf("the time to comlete the process is not over yet");
+                printf("the time to complete the process is not over yet\n");
             else {
-                printf("resource %s were successfuly %s",
+                printf("resource %s was successfully %s\n",
                        name_resource[(int) player->resources_generators[state[choice - 1]].resource],
-                       status_construct[(int)player->resources_generators[state[choice - 1]].status]);
-                player->resources_generators[state[choice - 1]].status = FINISHED;
+                       status_construct[(int) player->resources_generators[state[choice - 1]].status]);
+                //todo switch
+                if (player->resources_generators[state[choice - 1]].status == DELETING)
+                    player->resources_generators[state[choice - 1]].lvl = 0;
+                else if (player->resources_generators[state[choice - 1]].status == UPGRADING) {
+                    player->resources_generators[state[choice - 1]].lvl++;
+                    collect_source(player, player->resources_generators[state[choice - 1]].resource, state[choice - 1],
+                                   player->resources_generators[state[choice - 1]].lvl);
+                }
+                player->resources_generators[state[choice - 1]].status = DEFAULT;
                 player->resources_generators[state[choice - 1]].finishing_time = now;
                 save_user(player);
             }

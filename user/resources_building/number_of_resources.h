@@ -3,18 +3,17 @@
 #include"../user.h"
 
 inline int find_resource(user *player) {
-    int empty_resource = -1, i;
+    int i;
     for (i = 0; i < 6; i++) {
-        if (player->resources_generators[i].lvl == 0 && player->resources_generators[i].status == FINISHED)
-            empty_resource = i;
+        if (player->resources_generators[i].lvl == 0)
+            return i;
     }
-    return empty_resource;
 }
 
 inline int number_resource(user *player, int state[], int count_resource[]) {
     int i, number_resources = 0;
     for (i = 0; i < 6; i++)
-        if (player->resources_generators[i].lvl != 0 && player->resources_generators[i].status == FINISHED) {
+        if (player->resources_generators[i].lvl != 0) {
             state[number_resources] = i;
             number_resources++;
             count_resource[player->resources_generators[i].resource]++;

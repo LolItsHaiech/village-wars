@@ -9,8 +9,9 @@
 #include "../utils/input.h"
 #include "../utils/utils.h"
 #include "attacks/attacks.h"
-#include "resources_building/view_resources.h"
 #include "resources_building/view_building.h"
+#include "resources_building/resource.h"
+#include "resources_building/building.h"
 
 
 inline user *register_user(char username[11], char password[11]);
@@ -117,6 +118,15 @@ inline user *register_user(char username[11], char password[11]) {
     registered_user->soldiers_count.warrior = 0;
     registered_user->soldiers_count.archer = 0;
     registered_user->soldiers_count.rider = 0;
+    int i;
+    for (i = 0; i < 6; ++i) {
+        registered_user->buildings[i].lvl=0;
+        registered_user->buildings[i].status=DEFAULT;
+        registered_user->resources_generators[i].lvl=0;
+        registered_user->resources_generators[i].status=DEFAULT;
+    }
+
+    //todo set to zero;
     add_user(registered_user);
     return registered_user;
 }
@@ -147,10 +157,10 @@ inline void user_menu_ui(user *player) {
                 rename_village_ui(player);
             break;
             case RESOURCES:
-                view_resources(player);
+                resource_ui(player);
             break;
             case BUILDINGS:
-                view_building(player);
+                building_ui(player);
             break;
             case MILITARIES:
                 break;

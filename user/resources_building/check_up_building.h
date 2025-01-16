@@ -30,8 +30,8 @@ inline void check_up_building(user *player, enum Buildings building_type, int st
                 if (player->resources.wood_count < wood_storage_reqs[level - 1].wood || player->resources.stone_count <
                     wood_storage_reqs[level - 1].stone)
                     result = 0;
-                less_wood = -player->resources.wood_count - wood_storage_reqs[level - 1].wood;
-                less_stone = -player->resources.stone_count - wood_storage_reqs[level - 1].stone;
+                less_wood = player->resources.wood_count - wood_storage_reqs[level - 1].wood;
+                less_stone = player->resources.stone_count - wood_storage_reqs[level - 1].stone;
                 break;
             case STONE_STORAGE:
                 if (player->resources.wood_count < stone_storage_reqs[level - 1].wood || player->resources.stone_count <
@@ -53,7 +53,6 @@ inline void check_up_building(user *player, enum Buildings building_type, int st
         if (result) {
             int time_needed = get_time_needed(true, building_type, player->buildings[state].lvl);
             set_time(player, 1, state, time_needed);
-            player->buildings[state].lvl++;
             capacity(player, building_type, state, level + 1);
             player->buildings[state].status = UPGRADING;
             save_user(player);
@@ -69,11 +68,11 @@ inline void check_up_building(user *player, enum Buildings building_type, int st
         } else {
             printf("upgrade didnt completed  resource not enough ");
             if (less_stone < 0)
-                printf("you need %d  more stone \n", less_stone);
+                printf("you need %d more stone \n", -less_stone);
             if (less_wood < 0)
-                printf("you need %d  more wood \n", less_wood);
+                printf("you need %d more wood \n", -less_wood);
             if (less_food < 0)
-                printf("you need %d  more food  \n", less_food);
+                printf("you need %d more food  \n", -less_food);
         }
     }
 }
