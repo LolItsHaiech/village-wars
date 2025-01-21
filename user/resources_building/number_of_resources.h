@@ -20,4 +20,15 @@ inline int number_resource(user *player, int state[], int count_resource[]) {
         }
     return number_resources;
 }
+inline int number_resource_finished(user *player, int state[], int count_resource[]) {
+    int i, number_resources = 0;
+    for (i = 0; i < 6; i++)
+        if (player->resources_generators[i].lvl != 0&&player->resources_generators[i].status==DEFAULT ) {
+            state[number_resources] = i;
+            number_resources++;
+            count_resource[player->resources_generators[i].resource]++;
+        }
+    return number_resources;
+}
+
 #endif

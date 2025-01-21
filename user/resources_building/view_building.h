@@ -4,34 +4,41 @@
 #include"../user.h"
 #include <stdlib.h>
 #include <time.h>
+#include "capacity.h"
 
 #include "printboard_resource.h"
 #include"../../headers/constants.h"
+#include <unistd.h>
 
 inline void view_building(user *player) {
     system("cls");
     int state[6] = {0, 0, 0, 0, 0, 0}, choice;
     while (true) {
+        system("cls");
         int i, numbers_building = 0;
         for (i = 0; i < 6; i++)
             if (player->buildings[i].lvl != 0) {
-                numbers_building++;
                 state[numbers_building] = i;
+                numbers_building++;
+
             }
         if (numbers_building == 0) {
             printf("your village dont have any building\n");
-            printf("Press <Enter> to continue...\n");
-            getchar();
+            sleep(2);
             break;
         }
-        printf("view building\n\tbuild\tlevel  \tsave source\trequset time\tfinish time\tstatus");
+        printf("view building\n\tbuild\t\tlevel\t\tsave source\trequset time\t\tfinish time\tstatus");
         printview_building(player);
         scanf("%d", &choice);
+        fflush(stdin);
+
         while (1 > choice || choice > numbers_building + 1) {
             printf("your choice is incorrect try again");
             system("cls");
             printview_building(player);;
             scanf("%d", &choice);
+            fflush(stdin);
+
         }
         if (choice == numbers_building + 1)
             break;
@@ -46,14 +53,22 @@ inline void view_building(user *player) {
                 printf("build %s were successfully %s",
                        name_building[(int) player->buildings[state[choice - 1]].building_type],
                        status_construct[(int)player->buildings[state[choice - 1]].status]);
+                if (player->buildings[state[choice - 1]].status ==ADDING)
+                capacity(player,player->buildings[state[choice - 1]].building_type , state[choice - 1], 0);
+
                 if (player->buildings[state[choice - 1]].status == DELETING)
                     player->buildings[state[choice - 1]].lvl = 0;
-                if (player->buildings[state[choice - 1]].status == UPGRADING)
+                if (player->buildings[state[choice - 1]].status == UPGRADING) {
+                                        capacity(player, player->buildings[state[choice - 1]].building_type, state[choice - 1],player->buildings[state[choice - 1]].lvl);
+                                        player->buildings[state[choice - 1]].is_working =true;
                     player->buildings[state[choice - 1]].lvl++;
+                }
                 player->buildings[state[choice - 1]].status = DEFAULT;
                 player->buildings[state[choice - 1]].finishing_time = now;
                 save_user(player);
             }
+            sleep(3);
+
         }
     }
 }

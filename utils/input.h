@@ -1,15 +1,12 @@
 #ifndef INPUT_H
 #define INPUT_H
 #include <stdbool.h>
-
-#include "input.h"
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
 
-bool read_str_input(char *title, char *output, int output_size, bool (*filters[])(char *), int filter_count) {
-    printf("%s:", title);
+inline bool read_str_input(char *title, char *output, int output_size, bool (*filters[])(char *), int filter_count) {
+    printf("%s: ", title);
     fgets(output, output_size,stdin);
     fflush(stdin);
     end_string(output);
@@ -21,10 +18,10 @@ bool read_str_input(char *title, char *output, int output_size, bool (*filters[]
     return true;
 }
 
-int read_int_input(char* title, int min, int max) {
+inline int read_int_input(char* title, int min, int max) {
     int res;
     while(1){
-        printf("%s:", title);
+        printf("%s: ", title);
         scanf("%d", &res);
         fflush(stdin);
         if (res>=min && res <= max)
@@ -33,7 +30,7 @@ int read_int_input(char* title, int min, int max) {
     }
 }
 
-bool read_confirmation(char *title, bool cls) {
+inline bool read_confirmation(char *title, bool cls) {
     char sure;
     while (1) {
         if (cls)
@@ -46,6 +43,13 @@ bool read_confirmation(char *title, bool cls) {
         if (sure == 'n')
             return false;
     }
+}
+
+inline bool min_length_filter(char* input) {
+    if(strlen(input)>=5)
+        return true;
+    printf("Username should at least be 5 letters long.\n");
+    return false;
 }
 
 #endif //INPUT_H

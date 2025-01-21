@@ -9,12 +9,12 @@
 #include "../utils/input.h"
 #include "../utils/utils.h"
 #include "attacks/attacks.h"
-#include "resources_building/view_building.h"
 #include "resources_building/resource.h"
 #include "resources_building/building.h"
 
 
 inline user *register_user(char username[11], char password[11]);
+
 inline void user_menu_ui(user *player);
 
 
@@ -28,12 +28,38 @@ inline void register_user_ui() {
 
         printf("Register\n\n");
 
-        while (!read_str_input("Username", username, 11, (bool (*[])(char *)){&unique_username_filter}, 1));
-        while (!read_str_input("Password", password, 11, NULL, 0)); //todo minimum length filter
-        while (!read_str_input("Confirm password", confirm_password, 11, NULL, 0));
+        printf(""
+               "  *Username and password should at least be 5 characters long.\n"
+               "  *Username should be unique.\n\n");
+
+        while (!read_str_input("Username", username, 11, (bool (*[])(char *)){
+                                   &unique_username_filter,
+                                   &min_length_filter
+                               }, 2)) {
+            if (!read_confirmation("Bad input, try again?", false)) {
+                return;
+            }
+        }
+
+        while (!read_str_input("Password", password, 11, (bool (*[])(char *)){&min_length_filter}, 1)) {
+            if (!read_confirmation("Bad input, try again?", false)) {
+                return;
+            }
+        }
+        while (!read_str_input("Confirm password", confirm_password, 11, (bool (*[])(char *)){&min_length_filter}, 1)) {
+            if (!read_confirmation("Bad input, try again?", false)) {
+                return;
+            }
+        }
 
         if (strcmp(password, confirm_password) == 0) {
             user *player = register_user(username, password);
+            if (player == NULL) {
+                system("cls");
+                printf("Something went wrong!\n");
+                sleep(1);
+                return;
+            }
             user_menu_ui(player);
             break;
         }
@@ -52,8 +78,10 @@ inline void login_user_ui() {
 
         printf("Login\n\n");
 
-        while (!read_str_input("Username", username, 11, NULL, 0));
-        while (!read_str_input("Password", password, 11, NULL, 0));
+        while (!read_str_input("Username", username, 11, NULL, 0)) {
+        }
+        while (!read_str_input("Password", password, 11, NULL, 0)) {
+        }
 
 
         user *player = get_user(username, password);
@@ -83,9 +111,12 @@ inline void change_password_ui(user *player) {
         printf("Change password\n\n");
 
 
-        while (!read_str_input("Old password", old_password, 11, NULL, 0));
-        while (!read_str_input("New password", new_password, 11, NULL, 0));
-        while (!read_str_input("Confirm New password", new_password_confirm, 11, NULL, 0));
+        while (!read_str_input("Old password", old_password, 11, NULL, 0)) {
+        }
+        while (!read_str_input("New password", new_password, 11, NULL, 0)) {
+        }
+        while (!read_str_input("Confirm New password", new_password_confirm, 11, NULL, 0)) {
+        }
 
         if (strcmp(new_password, new_password_confirm) != 0) {
             printf("New password and its confirmation are not the same.\n");
@@ -115,22 +146,28 @@ inline user *register_user(char username[11], char password[11]) {
     registered_user->resources.wood_count = 0;
     registered_user->resources.stone_count = 0;
 
-    registered_user->soldiers_count.warrior = 0;
-    registered_user->soldiers_count.archer = 0;
-    registered_user->soldiers_count.rider = 0;
+    // todo dont forget
+    registered_user->soldiers_count.warrior = 100;
+    registered_user->soldiers_count.archer = 100;
+    registered_user->soldiers_count.rider = 100;
     int i;
     for (i = 0; i < 6; ++i) {
-        registered_user->buildings[i].lvl=0;
-        registered_user->buildings[i].status=DEFAULT;
-        registered_user->resources_generators[i].lvl=0;
-        registered_user->resources_generators[i].status=DEFAULT;
+        registered_user->buildings[i].lvl = 0;
+        registered_user->buildings[i].status = DEFAULT;
+        registered_user->resources_generators[i].lvl = 0;
+        registered_user->resources_generators[i].status = DEFAULT;
     }
 
-    //todo set to zero;
-    add_user(registered_user);
+    for (i = 0; i < 16; ++i)
+        registered_user->soldiers[i].number_soldiers=0;
+
+    bool success = add_user(registered_user);
+    if (!success) {
+        free(registered_user);
+        return false;
+    }
     return registered_user;
 }
-
 
 
 inline void rename_village_ui(user *);
@@ -155,21 +192,21 @@ inline void user_menu_ui(user *player) {
         switch (input) {
             case RENAME_VILLAGE:
                 rename_village_ui(player);
-            break;
+                break;
             case RESOURCES:
                 resource_ui(player);
-            break;
+                break;
             case BUILDINGS:
                 building_ui(player);
-            break;
+                break;
             case MILITARIES:
                 break;
             case ATTACKS:
                 attack_ui(player);
-            break;
+                break;
             case CHANGE_PASSWORD:
                 change_password_ui(player);
-            break;
+                break;
             case LOGOUT:
                 if (read_confirmation("Are you sure?", true)) {
                     save_user(player);
@@ -183,7 +220,8 @@ inline void user_menu_ui(user *player) {
 inline void rename_village_ui(user *player) {
     system("cls");
     printf("Change village name\n\n");
-    while (!read_str_input("New village name", player->village_name, 11, NULL, 0));
+    while (!read_str_input("New village name", player->village_name, 11, NULL, 0)) {
+    }
     save_user(player);
 }
 

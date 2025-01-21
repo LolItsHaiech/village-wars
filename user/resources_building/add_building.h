@@ -9,12 +9,14 @@
 #include "capacity.h"
 #include "printboard_resource.h"
 #include "../../file_management.h"
+#include <unistd.h>
 
 inline void add_new_building(user *player) {
+
     int return_back = 0;
-    //todo enum choice
+
     while (return_back == 0) {
-        int choice, numbers_building, count_building[4] = {0, 0, 0, 0}, state[6] = {0, 0, 0, 0, 0, 0}, empty_building;
+        int choice, numbers_building=0, count_building[4] = {0, 0, 0, 0}, state[6] = {0, 0, 0, 0, 0, 0}, empty_building;
         numbers_building = number_buildings(player, state, count_building);
 
 
@@ -28,31 +30,38 @@ inline void add_new_building(user *player) {
             case 5:
                 system("cls");
                 show_building(count_building);
-                printf(
-                    "witch building do you need to add?\n1_wood_warehouse\n2_  food_warehouse\n3_ stone_warehouse\n4_ military_house  \n5_ return back");
+                printf("building   capacity   request time  "
+                   "\n1_ wood storage\t\t500\t\t3\n2_ food storage\t\t600\t\t3\n3_ stone storage\t\t400\t\t3\n4_ barrack\t\t2soldier creat\t10\n5_ return back");
                 scanf("%d", &choice);
+            fflush(stdin);
+
                 while (choice < 1 || choice > 5) {
                     printf("your choic is incorect try again\n");
+                    sleep(2);
                     system("cls");
                     show_building(count_building);
-                    printf(
-                        "witch building do you need to add?\n1_wood_warehouse\n2_  food_warehouse\n3_ stone_warehouse\n4_ military_house  \n5_ return back");
+                    printf("    building                capacity           request time  "
+                   "\n1_ wood storage\t\t500\t\t3\n2_ food storage\t\t600\t3\n3_ stone storage\t400\t\t3\n4_ barrack\t2soldier creat\t\t10\n5_ return back");
+
                     scanf("%d", &choice);
+                    fflush(stdin);
+
                 }
                 if (choice == 5) {
                     return_back = 1;
                     break;
                 }
-                system("cls");
+
                 empty_building = find_Buildings(player);
-                switch ((enum Buildings) choice) {
+                switch ((enum Buildings) choice-1) {
                     case WOOD_STORAGE:
                         printf("add woodstorage building is starting finish time 3 minute later\n");
                         player->buildings[empty_building].lvl = 1;
                         player->buildings[empty_building].building_type = WOOD_STORAGE;
                         set_time(player, 2, empty_building, 180);
                         player->buildings[empty_building].status = ADDING;
-                        capacity(player, WOOD_STORAGE, empty_building, 1);
+                     player->buildings[empty_building].storage = 0;
+
                         save_user(player);
                         break;
 
@@ -62,7 +71,8 @@ inline void add_new_building(user *player) {
                         player->buildings[empty_building].building_type = FOOD_STORAGE;
                         set_time(player, 2, empty_building, 180);
                         player->buildings[empty_building].status = ADDING;
-                        capacity(player, FOOD_STORAGE, empty_building, 1);
+                         player->buildings[empty_building].storage = 0;
+
                         save_user(player);
                         break;
                     case STONE_STORAGE:
@@ -71,29 +81,31 @@ inline void add_new_building(user *player) {
                         player->buildings[empty_building].building_type = STONE_STORAGE;
                         set_time(player, 2, empty_building, 180);
                         player->buildings[empty_building].status = ADDING;
-                        capacity(player, STONE_STORAGE, empty_building, 1);
-                        save_user(player);
+                    player->buildings[empty_building].storage = 0;
 
+                        save_user(player);
+                        break;
                     case BARRACK:
                         check_up_building(player, BARRACK, empty_building, 0);
                         if (player->buildings[empty_building].lvl == 1) {
                             player->buildings[empty_building].building_type = BARRACK;
-                            capacity(player, BARRACK, empty_building, 1);
-                            player->buildings[empty_building].lvl = 1;
+                            player->buildings[empty_building].storage = 0;
+
                             player->buildings[empty_building].status = ADDING;
                             save_user(player);
                         }
                         break;
-                    default:
-                        break;
+
                 }
 
-
-            default:
+            sleep(3);
+            break;
+            case 6:
                 system("cls");
                 show_building(count_building);
                 printf("your village currently has 6 building.therefore,it not possible to create a new building! ");
                 return_back = 1;
+            sleep(3);
         }
     }
 }

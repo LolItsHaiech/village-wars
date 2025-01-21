@@ -18,6 +18,10 @@ inline void set_time(user *player, int type, int state, int time_needed) {
         case 2:
             player->buildings[state].change_time = now;
             player->buildings[state].finishing_time = now + time_needed;
+        break;
+        case 3:
+            player-> soldiers[state].change_time = now;
+        player-> soldiers[state].finishing_time = now + time_needed;
     }
     save_user(player);
 }
@@ -37,6 +41,7 @@ inline int get_time_needed(bool is_build, int type, int level) {
                     time_needed = food_reqs[level - 1].time;
                     break;
             }
+            break;
         default:
             switch ((enum Buildings) type) {
                 case FOOD_STORAGE:
@@ -49,10 +54,30 @@ inline int get_time_needed(bool is_build, int type, int level) {
                     time_needed = stone_storage_reqs[level - 1].time;
                     break;
                 case BARRACK:
-                    time_needed = barrack_reqs[level - 1].time;
+                    //todo level
+                    time_needed = barrack_reqs[level].time;
             }
     }
     return time_needed;
+}
+inline  int get_time_needed_soldiers(int level,enum Soldier  soldier) {
+    int time_needed;
+    switch ( soldier) {
+        case WARRIOR:
+            time_needed = time_build_soldier[level - 1].warrior;
+        break;
+        case RIDER:
+            time_needed = time_build_soldier[level - 1].rider;
+        break;
+        case ARCHER:
+            time_needed = time_build_soldier[level - 1].archer;
+        break;
+
+
+    }
+    return time_needed;
+
+
 }
 
 #endif //SET_TIME_H

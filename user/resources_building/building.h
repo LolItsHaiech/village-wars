@@ -13,7 +13,7 @@ inline void building_ui(user *player) {
     while (true) {
         system("cls");
         printf(
-            "building:\n  1_ view building\n  \n  2_ add new building\n  3_ update building\n  4_ delete building\n  5_ return back");
+            "building:\n  1_ view building\n  2_ add new building\n  3_ update building\n  4_ delete building\n  5_ return back\n");
         scanf("%d", &main_choice);
         if (main_choice == 5) {
             break;

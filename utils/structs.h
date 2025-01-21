@@ -25,7 +25,7 @@ typedef struct user {
     struct {
         enum Resource resource;
         int lvl;
-        bool is_working;
+
         enum building_status status;
         time_t change_time;
         time_t finishing_time;
@@ -33,6 +33,7 @@ typedef struct user {
     } resources_generators[6];
 
     struct {
+        bool is_working;
         enum Buildings building_type;
         int lvl;
         time_t change_time;
@@ -40,6 +41,13 @@ typedef struct user {
         int storage;
         enum building_status status;
     } buildings[6];
+
+    struct {
+        enum Soldier soldier;
+        time_t change_time;
+        time_t finishing_time;
+        int number_soldiers;
+    } soldiers[16];
 } user;
 
 

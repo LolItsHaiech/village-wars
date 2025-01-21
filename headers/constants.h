@@ -17,6 +17,10 @@ struct soldier_stats {
     int strength, defence;
 };
 
+struct time_build_soldiers_barracks {
+    int warrior,rider,archer;
+};
+
 // food_reqs[i] => amount needed for upgrading i+2 to i+1
 
 const struct resource_requirements wood_reqs[4] = {
@@ -63,13 +67,13 @@ const struct resource_requirements food_storage_reqs[4] = {
 
 
 // wood_rate[i] => wood rate of level i+1
-const int wood_rate_per_minute[5] = {15,30,45,60,80};
-const int stone_rate_per_minute[5] = {10,20,30,40,50};
-const int food_rate_per_minute[5] = {35,50,75,90,120};
+const int wood_rate_per_minute[5] = {15, 30, 45, 60, 80};
+const int stone_rate_per_minute[5] = {10, 20, 30, 40, 50};
+const int food_rate_per_minute[5] = {35, 50, 75, 90, 120};
 
 const int wood_storage_capacity[5] = {500, 1000, 1500, 2000, 2500};
-const int stone_storage_capacity[5] = {400,800,1200,1600,2000};
-const int food_storage_capacity[5] = {600,1000,1400,2000,2600};
+const int stone_storage_capacity[5] = {400, 800, 1200, 1600, 2000};
+const int food_storage_capacity[5] = {600, 1000, 1400, 2000, 2600};
 
 const struct soldier_requirements warrior_requirements = {50, 30, 20};
 const struct soldier_requirements archer_requirements = {75, 30, 30};
@@ -81,8 +85,8 @@ const struct soldier_stats rider_stats = {20, 7};
 
 
 const char *name_resource[3] = {"WOOD", "FOOD", "STONE"};
-const char *name_building[4] ={"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE","BARRACK"};
-const char *status_construct[4] = {"ADD", "UP", "DEL","-"};
+const char *name_building[4] = {"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE", "BARRACK"};
+const char *status_construct[4] = {"ADD", "UP", "DEL", "-"};
 
 // barrack_requirements[i] => upgrade from lvl i to lvl i+1
 const struct barrack_requirements barrack_reqs[5] = {
@@ -93,6 +97,17 @@ const struct barrack_requirements barrack_reqs[5] = {
     {300, 150, 450, 3000},
 };
 
+const struct time_build_soldiers_barracks time_build_soldier[5] = {
 
+    {120, 240, 180},
+    {90, 180, 150},
+    {60, 150, 120},
+    {45, 120, 90},
+    {30, 90, 60},
+};
+
+
+const char *attack_status_name[3] = {"ON_THE_WAY", "ON_THE_WAY_BACK", "DONE"};
+const char *name_soldiers[3] = {"WARRIOR", "RIDER", "ARCHER"};
 
 #endif

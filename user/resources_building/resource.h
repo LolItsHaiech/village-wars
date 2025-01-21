@@ -15,7 +15,7 @@ inline void resource_ui(user *player) {
         system("cls");
         //todo
         printf(
-            "resources:\n  1_ view resources\n  2_ collecting resources\n  3_ add new resources\n  4_ upgrade resources\n  5_ delete resources\n  6_ return back");
+            "Resources:\n  1_ view resources\n  2_ collecting resources\n  3_ add new resources\n  4_ upgrade resources\n  5_ delete resources\n  6_ return back\n");
         scanf("%d", &main_choice);
         fflush(stdin);
         if (main_choice == 6)

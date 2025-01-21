@@ -1,7 +1,8 @@
 #ifndef MILIRATY_H
 #define MILIRATY_H
 #include "../user.h"
-
+#include "add_military.h"
+#include "view_military.h"
 
 void military_ui(user* player) {
     bool exited = false;
@@ -14,8 +15,10 @@ void military_ui(user* player) {
 
         switch (input) {
             case VIEW_MILITARIES:
+                view_military(player);
                 break;
             case ADD_MILITARY:
+              add_military(player);
                 break;
             case RETURN1:
                 exited = true;

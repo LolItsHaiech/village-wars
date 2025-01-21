@@ -15,7 +15,7 @@ inline void collect_source(user *player, enum Resource resource, int state, int 
             break;
         case FOOD:
             player->resources_generators[state].collect_rate = food_rate_per_minute[level-1];
-            break;
+
     }
     save_user(player);
 }

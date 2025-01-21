@@ -23,6 +23,12 @@ enum Buildings {
     BARRACK
 };
 
+enum Soldier {
+    WARRIOR,
+    RIDER,
+    ARCHER
+};
+
 enum AttackStatus { ON_THE_WAY, ON_THE_WAY_BACK, DONE };
 
 
@@ -36,6 +42,6 @@ enum UserMenuOptions {
     LOGOUT
 };
 
-enum MilitaryMenuOptions {VIEW_MILITARIES, ADD_MILITARY, RETURN1};
+enum MilitaryMenuOptions { VIEW_MILITARIES, ADD_MILITARY, RETURN1 };
 
 #endif

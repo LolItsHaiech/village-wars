@@ -12,7 +12,7 @@ inline void max_capacity(user *player, int capacity[]) {
                 case FOOD_STORAGE: capacity[1] += player->buildings[i].storage;
                     break;
                 case STONE_STORAGE: capacity[2] += player->buildings[i].storage;
-                default:
+                
             }
 }
 

@@ -2,22 +2,18 @@
 #define ATTACKS_H
 
 #include "../../utils/structs.h"
-
 #include "attacks.h"
-
 #include <math.h>
-
-#include "../user.h"
 #include "../../utils/utils.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
-
 #include "../../utils/input.h"
 #include "../../utils/time.h"
 #include "../../headers/constants.h"
+#include "../resources_building/max_capacity.h"
 
 
 void attack_ui(user *player);
@@ -28,7 +24,7 @@ bool proceed_attack(user *player, attack *input_attack);
 
 enum AttackMenuOptions { HISTORY = 1, VIEW_ATTACKS, NEW_ATTACK, RETURN };
 
-void attack_ui(user *player) {
+inline void attack_ui(user *player) {
     bool exited = false;
 
     while (!exited) {
@@ -55,7 +51,7 @@ void attack_ui(user *player) {
     }
 }
 
-void new_attack_ui(user *player) {
+inline void new_attack_ui(user *player) {
     system("cls");
     printf("New attack\n\n"
            "Available soldiers:\n"
@@ -75,14 +71,14 @@ void new_attack_ui(user *player) {
     user *enemies_list = get_all_users_expect(&enemies_count, player);
 
     printf("Which village do you want to attack?\n"
-           "(Enter 0 to return back)\n\n");
+        "(Enter 0 to return back)\n\n");
     int i;
     for (i = 0; i < enemies_count; i++)
         printf("  %d - %s (%s village)\n", i + 1, enemies_list[i].username, enemies_list[i].village_name);
 
     int input = read_int_input("Village number", 0, enemies_count);
 
-    if(input==0) {
+    if (input == 0) {
         if (enemies_count != 0)
             free(enemies_list);
         return;
@@ -113,31 +109,43 @@ void new_attack_ui(user *player) {
     add_attack(new_attack);
 }
 
-void view_attacks_ui(user *player) {
+inline void view_attacks_ui(user *player) {
     system("cls");
     printf("View attacks\n\n");
 
     int attack_count;
-    attack *attack_arr = get_user_attacks(&attack_count, player->id, false); // todo fix this shit
+    attack *attack_arr = get_user_attacks(&attack_count, player->id, false);
     int i;
     for (i = 0; i < attack_count; ++i) {
         char start_time[50];
-        user *attacker = get_user_by_id(attack_arr[i].attacker_user_id);
-        user *attacked = get_user_by_id(attack_arr[i].attacked_user_id);
-        get_date_time(start_time, &attack_arr[i].request_time);
-        printf("  %d - %s -> %s  %s, %d %d %d\n", i + 1,
-               attacker->username, attacked->username, start_time,
-               attack_arr[i].soldiers_count.warrior, attack_arr[i].soldiers_count.archer,
-               attack_arr[i].soldiers_count.rider);
+        char end_time[50];
+        user *attacker_user = get_user_by_id(attack_arr[i].attacker_user_id);
+        user *attacked_user = get_user_by_id(attack_arr[i].attacked_user_id);
 
-        free(attacker);
-        free(attacked);
+        switch (attack_arr[i].status) {
+            case ON_THE_WAY:
+                get_date_time(start_time, attack_arr[i].request_time);
+                get_date_time(end_time, attack_arr[i].request_time+600);
+                break;
+            case ON_THE_WAY_BACK:
+            case DONE: // this shouldn't happen, but just in case
+                get_date_time(start_time, attack_arr[i].start_attack_time);
+                get_date_time(start_time, attack_arr[i].start_attack_time+600);
+                break;
+        }
+
+        printf("  %d - %s -> %s %s, %s %d %d %d, %s\n", i + 1,
+               attacker_user->username, attacked_user->username, start_time, end_time,
+               attack_arr[i].soldiers_count.warrior, attack_arr[i].soldiers_count.archer,
+               attack_arr[i].soldiers_count.rider, attack_status_name[(int)attack_arr[i].status]);
+
+        free(attacker_user);
+        free(attacked_user);
     }
 
     int input;
-    printf("Enter the attack you want to proceed to the next step:\n"
-        "(Enter 0 to go back)\n");
-    input = read_int_input("", 0, attack_count);
+    printf("Enter the attack you want to proceed to the next step:\n");
+    input = read_int_input("(Enter 0 to go back)", 0, attack_count);
     if (input == 0)
         return;
 
@@ -146,19 +154,19 @@ void view_attacks_ui(user *player) {
 }
 
 
-void attacks_history_ui(user *player) {
+inline void attacks_history_ui(user *player) {
     system("cls");
     printf("Attacks history\n\n");
 
     int attack_count;
-    attack *attack_arr = get_user_attacks(&attack_count, player->id, true); // todo fix this shit
+    attack *attack_arr = get_user_attacks(&attack_count, player->id, true);
     int i;
     for (i = 0; i < attack_count; ++i) {
         char start_time[50];
         char end_time[50];
         user *attacker = get_user_by_id(attack_arr[i].attacker_user_id);
         user *attacked = get_user_by_id(attack_arr[i].attacked_user_id);
-        get_date_time(start_time, &attack_arr[i].request_time);
+        get_date_time(start_time, attack_arr[i].request_time);
         printf("  %s -> %s  %s, %s, %d %d %d %s\n",
                attacker->username, attacked->username, start_time, end_time,
                attack_arr[i].soldiers_count.warrior, attack_arr[i].soldiers_count.archer,
@@ -176,13 +184,13 @@ void attacks_history_ui(user *player) {
     } while (inp != '0');
 }
 
-bool proceed_attack(user *player, attack *input_attack) {
+inline bool proceed_attack(user *player, attack *input_attack) {
     // todo test
     switch (input_attack->status) {
         case ON_THE_WAY:
             if (input_attack->request_time + 600 <= time(NULL)) {
-                input_attack->status = ON_THE_WAY;
                 input_attack->start_attack_time = time(NULL);
+                input_attack->status = ON_THE_WAY_BACK;
 
                 int strength_sum = input_attack->soldiers_count.warrior * warrior_stats.strength +
                                    input_attack->soldiers_count.archer * archer_stats.strength +
@@ -197,7 +205,8 @@ bool proceed_attack(user *player, attack *input_attack) {
                     // attack won
                     input_attack->attackers_won = true;
                     //todo ?
-                    bool soldiers_eleminated = false;
+                    bool soldiers_eliminated = false;
+                    //todo graphic
 
 
                     if (attacked_user->soldiers_count.warrior != 0) {
@@ -205,39 +214,34 @@ bool proceed_attack(user *player, attack *input_attack) {
                         attacked_user->soldiers_count.warrior = attacked_user->soldiers_count.warrior > count
                                                                     ? attacked_user->soldiers_count.warrior - count
                                                                     : 0;
-                        soldiers_eleminated = true;
+                        soldiers_eliminated = true;
                     } else if (attacked_user->soldiers_count.archer != 0) {
                         int count = ceil((float) 2 * (strength_sum - defence_sum) / archer_stats.strength);
                         attacked_user->soldiers_count.archer = attacked_user->soldiers_count.archer > count
                                                                    ? attacked_user->soldiers_count.archer - count
                                                                    : 0;
-                        soldiers_eleminated = true;
+                        soldiers_eliminated = true;
                     } else if (attacked_user->soldiers_count.rider != 0) {
                         int count = ceil((float) 2 * (strength_sum - defence_sum) / rider_stats.strength);
                         attacked_user->soldiers_count.rider = attacked_user->soldiers_count.rider > count
                                                                   ? attacked_user->soldiers_count.rider - count
                                                                   : 0;
-                        soldiers_eleminated = true;
+                        soldiers_eliminated = true;
                     }
 
+                    int food_gotten = attacked_user->resources.food_count * (soldiers_eliminated ? 0.5 : 0.6);
+                    int wood_gotten = attacked_user->resources.food_count * (soldiers_eliminated ? 0.5 : 0.6);
+                    int stone_gotten = attacked_user->resources.food_count * (soldiers_eliminated ? 0.5 : 0.6);
 
-                    if (soldiers_eleminated) {
-                        player->resources.food_count = attacked_user->resources.food_count *= 0.5;
-                        player->resources.wood_count = attacked_user->resources.wood_count *= 0.5;
-                        player->resources.stone_count = attacked_user->resources.stone_count *= 0.5;
+                    int capacity[3];
+                    max_capacity(player, capacity);
 
-                        attacked_user->resources.food_count *= 0.5;
-                        attacked_user->resources.wood_count *= 0.5;
-                        attacked_user->resources.stone_count *= 0.5;
-                    } else {
-                        player->resources.food_count = attacked_user->resources.food_count *= 0.6;
-                        player->resources.wood_count = attacked_user->resources.wood_count *= 0.6;
-                        player->resources.stone_count = attacked_user->resources.stone_count *= 0.6;
-
-                        attacked_user->resources.food_count *= 0.4;
-                        attacked_user->resources.wood_count *= 0.4;
-                        attacked_user->resources.stone_count *= 0.4;
-                    }
+                    if (wood_gotten + player->resources.wood_count >= capacity[0])
+                        player->resources.wood_count = capacity[0];
+                    if (food_gotten + player->resources.food_count >= capacity[1])
+                        player->resources.wood_count = capacity[1];
+                    if (stone_gotten + player->resources.stone_count >= capacity[2])
+                        player->resources.wood_count = capacity[2];
 
                     system("cls");
                     printf("Attack won\n");
@@ -245,9 +249,6 @@ bool proceed_attack(user *player, attack *input_attack) {
                     printf("Press <Enter> to continue...\n");
                     getchar();
                     fflush(stdin);
-
-
-                    // todo check capacity before adding
                 } else {
                     // attack lost
 
