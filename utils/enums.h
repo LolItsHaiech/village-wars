@@ -17,8 +17,8 @@ enum building_status {
 };
 
 enum Buildings {
+     WOOD_STORAGE,
     FOOD_STORAGE,
-    WOOD_STORAGE,
     STONE_STORAGE,
     BARRACK
 };

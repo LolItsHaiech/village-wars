@@ -11,7 +11,7 @@
 #include "attacks/attacks.h"
 #include "resources_building/resource.h"
 #include "resources_building/building.h"
-
+#include "military/miliraty.h"
 
 inline user *register_user(char username[11], char password[11]);
 
@@ -147,18 +147,18 @@ inline user *register_user(char username[11], char password[11]) {
     registered_user->resources.stone_count = 0;
 
     // todo dont forget
-    registered_user->soldiers_count.warrior = 100;
-    registered_user->soldiers_count.archer = 100;
-    registered_user->soldiers_count.rider = 100;
+    registered_user->soldiers_count.warrior = 0;
+    registered_user->soldiers_count.archer = 0;
+    registered_user->soldiers_count.rider = 0;
     int i;
-    for (i = 0; i < 6; ++i) {
+    for (i = 0; i < 6; i++) {
         registered_user->buildings[i].lvl = 0;
         registered_user->buildings[i].status = DEFAULT;
         registered_user->resources_generators[i].lvl = 0;
         registered_user->resources_generators[i].status = DEFAULT;
     }
 
-    for (i = 0; i < 16; ++i)
+    for (i = 0; i < 18; i++)
         registered_user->soldiers[i].number_soldiers=0;
 
     bool success = add_user(registered_user);
@@ -200,6 +200,7 @@ inline void user_menu_ui(user *player) {
                 building_ui(player);
                 break;
             case MILITARIES:
+                military_ui(player);
                 break;
             case ATTACKS:
                 attack_ui(player);

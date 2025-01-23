@@ -54,8 +54,9 @@ inline void view_building(user *player) {
                        name_building[(int) player->buildings[state[choice - 1]].building_type],
                        status_construct[(int)player->buildings[state[choice - 1]].status]);
                 if (player->buildings[state[choice - 1]].status ==ADDING)
-                capacity(player,player->buildings[state[choice - 1]].building_type , state[choice - 1], 0);
-
+                {       capacity(player,player->buildings[state[choice - 1]].building_type , state[choice - 1], 0);
+                player->buildings[state[choice - 1]].is_working =true;
+            }
                 if (player->buildings[state[choice - 1]].status == DELETING)
                     player->buildings[state[choice - 1]].lvl = 0;
                 if (player->buildings[state[choice - 1]].status == UPGRADING) {

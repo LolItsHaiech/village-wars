@@ -97,7 +97,7 @@ inline void check_up_building(user *player, enum Buildings building_type, int st
             player->resources.wood_count = less_wood;
             player->resources.stone_count = less_stone;
 
-            if (player->buildings[state].building_type== BARRACK&&player->buildings[state].lvl== 0) {
+            if (building_type== BARRACK&&player->buildings[state].lvl== 0) {
                 printf("add BARRACK building is starting finish time 10 minute later\n");
                 player->buildings[state].lvl= 1;
             }

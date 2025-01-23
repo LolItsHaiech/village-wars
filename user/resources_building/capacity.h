@@ -18,7 +18,7 @@ inline void capacity(user *player,enum Buildings building_type  ,int state,int l
             player->buildings[state].storage =stone_storage_capacity[level];
         break;
         case  BARRACK:
-            player->buildings[state].storage=level+1;
+            player->buildings[state].storage=level+2;
         break;
     }
     save_user(player);

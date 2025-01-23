@@ -47,7 +47,7 @@ typedef struct user {
         time_t change_time;
         time_t finishing_time;
         int number_soldiers;
-    } soldiers[16];
+    } soldiers[18];
 } user;
 
 

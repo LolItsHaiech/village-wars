@@ -147,54 +147,58 @@ int attack,defence;
     attack=player->soldiers_count.archer*15+player->soldiers_count.warrior*10+player->soldiers_count.rider*20;
     printf("\ndefence power of village:%d\tattack power of village%d",defence,attack );
 }
-inline  int print_soldiers_creating(user *player, int state[]) {
+inline void
+print_soldiers_creating(user *player, int state[]) {
     int i, counter = 0;
-for (i = 0; i < 12; i++) {
-    char finishing_time[50];
+for (i = 0; i < 16; i++) {
+    if (player->soldiers[i].number_soldiers!=0)
+    {counter++;
+        char finishing_time[50];
     get_date_time(finishing_time, player->soldiers[i].finishing_time);
     char change_time[50];
     get_date_time(change_time, player->soldiers[i].change_time);
 
-    if (player->soldiers[i].number_soldiers!=0) {
 
-        printf("soldier  name:%s\tnumbers :%d\t change time:%s\tfinishing time:%s\t",name_soldiers[(int)player->soldiers[i].soldier],player->soldiers->number_soldiers,change_time,finishing_time);
+
+        printf("\n_%d\t%s\t%d\t%s\t%s\t",counter,name_soldiers[(int)player->soldiers[i].soldier],player->soldiers->number_soldiers,change_time,finishing_time);
          state[counter] =i;
         counter++;
     }
     }
-    return counter;
+
 
 }
 inline void printview_military(user *player) {
-    int i, counter = 1;
-    printf(" number of military");
+
+    printf(" number of military:\t");
 
     printf(" number archer:%d",player->soldiers_count.archer);
     printf(" number rider:%d",player->soldiers_count.rider);
     printf(" number warior:%d",player->soldiers_count.warrior);
-    print_power_of_village(player);
+
 
 }
 inline void print_add_soldier(user *player,int state[],int numbers_military) {
-    printf("choose your barrack building or return back\n:");
-    if (state[0]!=-1 )
-        printf("1_ barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",player->buildings[state[0]].lvl,player->buildings[state[0]].lvl+1,player->buildings[state[0]].storage);
-    if (state[1]!=-1 )
-        printf("\n2_barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",player->buildings[state[1]].lvl,player->buildings[state[1]].lvl+1,player->buildings[state[1]].storage);
-        if (state[2]!=-1 )
-            printf("\n2_barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",player->buildings[state[2]].lvl,player->buildings[state[2]].lvl+1,player->buildings[state[2]].storage);
+    printf("choose your barrack building or return back:\n");
+    int counter = 1;
+
+    if (state[0]!=-1 ) {
+        printf("\n%d_ barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",counter,player->buildings[state[0]].lvl,player->buildings[state[0]].lvl+1,player->buildings[state[0]].storage);
+        counter++;
+    }
+    if (state[1]!=-1 ) {
+        printf("\n%d_barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",counter,player->buildings[state[1]].lvl,player->buildings[state[1]].lvl+1,player->buildings[state[1]].storage);
+
+        counter++;}
+    if (state[2]!=-1 ){
+        printf("\n%d_barrack building  level =%d the rate of creating soldiers per minute:%d,number of bulidable soldiers now:%d",counter,player->buildings[state[2]].lvl,player->buildings[state[2]].lvl+1,player->buildings[state[2]].storage);
+
+ counter++;}
 
 
-
-    printf("\n%d_retuen back:\n",numbers_military+1);
+    printf("\n%d_retuen back:\n",counter);
 
 }
 
-inline  int print_check_can_creating_soldier(user *player,int level,int requirment_ ) {
 
-
-
-
-
-}
 #endif

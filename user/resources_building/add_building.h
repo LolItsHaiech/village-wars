@@ -53,7 +53,7 @@ inline void add_new_building(user *player) {
                 }
 
                 empty_building = find_Buildings(player);
-                switch ((enum Buildings) choice-1) {
+                switch ((enum Buildings)(choice-1)) {
                     case WOOD_STORAGE:
                         printf("add woodstorage building is starting finish time 3 minute later\n");
                         player->buildings[empty_building].lvl = 1;
