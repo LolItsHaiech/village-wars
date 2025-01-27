@@ -145,14 +145,13 @@ inline user *register_user(char username[11], char password[11]) {
     registered_user->encrypted_password = encrypt_password(password);
 
 
-    //todo
-    registered_user->resources.food_count = 500;
-    registered_user->resources.wood_count = 500;
-    registered_user->resources.stone_count = 500;
+    registered_user->resources.food_count = 0;
+    registered_user->resources.wood_count = 0;
+    registered_user->resources.stone_count = 0;
 
-    registered_user->soldiers_count.warrior = 2;
-    registered_user->soldiers_count.archer = 2;
-    registered_user->soldiers_count.rider = 2;
+    registered_user->soldiers_count.warrior = 0;
+    registered_user->soldiers_count.archer = 0;
+    registered_user->soldiers_count.rider = 0;
     int i;
     for (i = 0; i < 6; i++) {
         registered_user->buildings[i].lvl = 0;
