@@ -3,12 +3,12 @@
 #include"../user.h"
 
 inline int find_Buildings(user *player) {
-    int i, empty_building=0;
+    int i;
     for (i = 0; i < 6; i++) {
         if (player->buildings[i].lvl == 0)
-            empty_building = i;
+            return i;
     }
-    return empty_building;
+
 }
 
 inline int number_buildings(user *player, int state[], int count_building[]) {
@@ -17,6 +17,7 @@ inline int number_buildings(user *player, int state[], int count_building[]) {
         if (player->buildings[i].lvl != 0) {
             state[number_building] = i;
             number_building++;
+            if (player->buildings->status !=DELETING )
             count_building[(int)player->buildings[i].building_type]++;
         }
     return number_building;

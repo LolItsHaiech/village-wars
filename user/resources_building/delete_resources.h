@@ -29,8 +29,9 @@ void print_delete_resource(user *player) {
 inline void delete_resources(user *player) {
     system("cls");
     //todo boolean
-    int choice, except_choice;
     while (true) {
+        int choice, except_choice;
+
         int state[6] = {0, 0, 0, 0, 0, 0}, number_resources, count_resource[3] = {0, 0, 0};
         number_resources = number_resource_finished(player, state, count_resource);
         if (number_resources == 0) {

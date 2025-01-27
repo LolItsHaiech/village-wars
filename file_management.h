@@ -16,9 +16,9 @@
 #include "utils/utils.h"
 #include "utils/structs.h"
 
-// todo ask before removing file
 
-inline bool save_user(user* input_user) {
+
+inline bool save_user(user *input_user) {
     FILE *users_file = fopen(USERS_FILE, "r");
 
     if (users_file == NULL) {
@@ -94,7 +94,7 @@ inline user *get_user(char username[11], char password[11]) {
     return NULL;
 }
 
-inline user* get_user_by_id(int id) {
+inline user *get_user_by_id(int id) {
     FILE *users_file = fopen(USERS_FILE, "r");
 
     if (users_file == NULL) {
@@ -102,7 +102,7 @@ inline user* get_user_by_id(int id) {
     }
 
     while (!feof(users_file)) {
-        user *cur_user = (user*) malloc (sizeof(user));
+        user *cur_user = (user *) malloc(sizeof(user));
         fread(cur_user, sizeof(user), 1, users_file);
         if (cur_user->id == id) {
             fclose(users_file);
@@ -117,7 +117,7 @@ inline bool add_user(user *player) {
     FILE *users_file = fopen(USERS_FILE, "a");
     if (users_file == NULL) {
         remove(USERS_FILE);
-        if(read_confirmation("Users file cannot be accessed,\nRemove the file and try again?", false))
+        if (read_confirmation("Users file cannot be accessed,\nRemove the file and try again?", false))
             users_file = fopen(USERS_FILE, "a");
         else
             return false;
@@ -149,7 +149,7 @@ inline user *get_all_users_expect(int *output_count, user *excluded_user) {
     FILE *users_file = fopen(USERS_FILE, "r");
     if (users_file == NULL)
         return NULL;
-    user *output = NULL; //todo?
+    user *output = NULL;
     user temp;
     while (fread(&temp, sizeof(user), 1, users_file)) {
         if (temp.id != excluded_user->id) {
@@ -171,22 +171,29 @@ inline void add_attack(attack input_attack) {
     fclose(attacks_file);
 }
 
-inline attack *get_user_attacks(int *attacks_count, int id, bool done) {
+inline attack *get_user_attacks(int *attacks_count, int id, bool done, bool only_user_attacks) {
     attack *attack_arr = NULL;
+
     *attacks_count = 0;
+
     FILE *attacks_file = fopen(ATTACKS_FILE, "r");
     if (attacks_file == NULL)
         return NULL;
-    while (!feof(attacks_file)) {
-        attack_arr = realloc(attack_arr, (*attacks_count + 1) * sizeof(attack));
-        fread(&attack_arr[*attacks_count], sizeof(attack), 1, attacks_file);
-        if ((attack_arr[*attacks_count].attacker_user_id == id || attack_arr[*attacks_count].attacked_user_id == id) &&
-            ((done && attack_arr[*attacks_count].status == DONE) ||
-            (!done && attack_arr[*attacks_count].status != DONE))) {
 
+
+    attack temp;
+
+    while (fread(&temp, sizeof(attack), 1, attacks_file)) {
+        if ((temp.attacker_user_id == id || (!only_user_attacks && temp.attacked_user_id == id)) &&
+            ((done && temp.status == DONE) || (!done && temp.status != DONE))) {
+
+
+            attack_arr = realloc(attack_arr, (*attacks_count + 1) * sizeof(attack));
+            attack_arr[*attacks_count] = temp;
             (*attacks_count)++;
         }
     }
+
     fclose(attacks_file);
     return attack_arr;
 }
@@ -243,7 +250,7 @@ inline int get_last_attack_id() {
 // }
 
 
-inline bool save_attack(attack* input_attack) {
+inline bool save_attack(attack *input_attack) {
     FILE *attacks_file = fopen(ATTACKS_FILE, "r");
 
     if (attacks_file == NULL) {
@@ -286,4 +293,3 @@ inline bool save_attack(attack* input_attack) {
 
 
 #endif //FILE_MANAGEMENT_H
-

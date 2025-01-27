@@ -60,6 +60,7 @@ inline void register_user_ui() {
                 sleep(1);
                 return;
             }
+
             user_menu_ui(player);
             break;
         }
@@ -142,14 +143,16 @@ inline user *register_user(char username[11], char password[11]) {
     strcpy(registered_user->username, username);
     strcpy(registered_user->village_name, username);
     registered_user->encrypted_password = encrypt_password(password);
-    registered_user->resources.food_count = 0;
-    registered_user->resources.wood_count = 0;
-    registered_user->resources.stone_count = 0;
 
-    // todo dont forget
-    registered_user->soldiers_count.warrior = 0;
-    registered_user->soldiers_count.archer = 0;
-    registered_user->soldiers_count.rider = 0;
+
+    //todo
+    registered_user->resources.food_count = 500;
+    registered_user->resources.wood_count = 500;
+    registered_user->resources.stone_count = 500;
+
+    registered_user->soldiers_count.warrior = 2;
+    registered_user->soldiers_count.archer = 2;
+    registered_user->soldiers_count.rider = 2;
     int i;
     for (i = 0; i < 6; i++) {
         registered_user->buildings[i].lvl = 0;
@@ -186,9 +189,9 @@ inline void user_menu_ui(user *player) {
             "Militaries",
             "Attacks",
             "Change password",
-            "Logout", //todo remove account
+            "Logout",
         };
-        enum UserMenuOptions input = (enum UserMenuOptions) open_menu(user_menu_title, user_menu_options, 7);
+        enum UserMenuOptions input = (enum UserMenuOptions) open_menu(user_menu_title, user_menu_options, 7, true);
         switch (input) {
             case RENAME_VILLAGE:
                 rename_village_ui(player);

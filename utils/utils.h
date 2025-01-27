@@ -27,8 +27,9 @@ inline void end_string(char* string) {
 }
 
 
-inline int open_menu(char* title, char** options, int options_count) {
-    system("cls");
+inline int open_menu(char* title, char** options, int options_count, bool cls) {
+    if(cls)
+        system("cls");
     printf("%s\n\n", title);
     int i;
     for (i = 0; i < options_count; ++i)

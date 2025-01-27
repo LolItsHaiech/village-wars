@@ -12,8 +12,9 @@
 
 inline void view_building(user *player) {
     system("cls");
-    int state[6] = {0, 0, 0, 0, 0, 0}, choice;
     while (true) {
+        int state[6] = {0, 0, 0, 0, 0, 0}, choice;
+
         system("cls");
         int i, numbers_building = 0;
         for (i = 0; i < 6; i++)

@@ -11,9 +11,10 @@
 
 inline void view_resources(user *player) {
 
-    int state[6] = {-1, -1, -1, -1, -1, -1}, i, number_resources = 0, choice;
 
     while (true) {
+        int state[6] = {-1, -1, -1, -1, -1, -1}, i, number_resources = 0, choice;
+
         system("cls");
 
         for (i = 0; i < 6; i++)

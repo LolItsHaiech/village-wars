@@ -12,7 +12,7 @@ int main() {
             "Register",
             "Exit"
         };
-        enum MenuOptions input = (enum MenuOptions) open_menu("Main Menu", main_menu_options, 3);
+        enum MenuOptions input = (enum MenuOptions) open_menu("Main Menu", main_menu_options, 3, true);
 
         switch (input) {
             case LOGIN:
@@ -27,3 +27,16 @@ int main() {
     }
     return 0;
 }
+
+
+// int main() {
+       // user temp;
+       // FILE *file = fopen("users.txt", "r");
+
+       // while(fread(&temp, sizeof(user), 1, file)) {
+           // printf("oi");
+       // }
+
+       // fclose(file);
+       // return 0;
+// }

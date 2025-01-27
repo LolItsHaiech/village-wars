@@ -22,6 +22,7 @@ inline int read_int_input(char* title, int min, int max) {
     int res;
     while(1){
         printf("%s: ", title);
+        fflush(stdin);
         scanf("%d", &res);
         fflush(stdin);
         if (res>=min && res <= max)

@@ -85,7 +85,7 @@ const struct soldier_stats rider_stats = {20, 7};
 
 
 const char *name_resource[3] = {"WOOD", "FOOD", "STONE"};
-const char *name_building[4] = {"FOOD_STORAGE", "WOOD_STORAGE", "STONE_STORAGE", "BARRACK"};
+const char *name_building[4] = {"WOOD_STORAGE", "FOOD_STORAGE", "STONE_STORAGE", "BARRACK"};
 const char *status_construct[4] = {"ADD", "UP", "DEL", "-"};
 
 // barrack_requirements[i] => upgrade from lvl i to lvl i+1

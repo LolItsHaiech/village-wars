@@ -1,7 +1,6 @@
 #ifndef TIME_H
 #define TIME_H
 #include <time.h>
-#include "time.h"
 #include <stdio.h>
 
 inline void get_date_time(char output[] ,time_t time) {

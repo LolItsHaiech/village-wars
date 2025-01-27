@@ -9,14 +9,14 @@
 
 #include <unistd.h>
 void print_delete_building(user *player) {
-    int i, counter = 1,building_req[3]={0,0,0};;
+    int i, counter = 0;
     printf("\nbuilding:   \t level\tcapacity\t");
     for (i = 0; i < 6; i++)
 
         if (player->buildings[i].lvl != 0 && player->buildings[i].status == DEFAULT) {
 
 
-            printf("\n  %d\t%s\t%d\t%d", counter, name_building[player->buildings[i].building_type],
+            printf("\n  %d\t%s\t%d\t%d", counter+1, name_building[player->buildings[i].building_type],
                    player->buildings[i].lvl, player->buildings[i].storage);
             counter++;
         }
@@ -25,10 +25,12 @@ void print_delete_building(user *player) {
     printf("enter number of row to deleting  bulding or return back:\n");
 }
 inline void delete_building(user *player) {
-    system("cls");
     //todo boolean
-    int choice, except_choice;
     while (true) {
+        int choice, except_choice;
+
+        system("cls");
+
         int state[6] = {0, 0, 0, 0, 0, 0}, number_building, count_building[4] = {0, 0, 0, 0};
         number_building = number_buildings_finished(player, state, count_building);
         if (number_building == 0) {
@@ -43,7 +45,7 @@ inline void delete_building(user *player) {
         scanf("%d", &choice);
         fflush(stdin);
 
-        while (1 > choice || choice > number_building + 1) {
+        while (1 > choice || choice > (number_building + 1)) {
             printf("your choice is incorect try again");
             sleep(2);
             system("cls");
@@ -54,13 +56,12 @@ inline void delete_building(user *player) {
         }
         if (choice == number_building + 1)
             break;
-        printf("%d",count_building[(int)player->buildings[choice-1].building_type]);
-        if (count_building[(int)player->buildings[choice-1].building_type]==1) {
+        if (count_building[(int)player->buildings[state[choice-1]].building_type]==1) {
             printf("you cant delete  main building ");
             sleep(2);
             break;
         }
-        if (1 <= choice && choice <= number_building) {
+        if (1 <= choice && choice <= number_building+1) {
             system("cls");
             printf("are you sure to delete this building %s level %d ?\n1.yes\n2.no\n",
                    name_building[(int) player->buildings[state[choice - 1]].building_type],
