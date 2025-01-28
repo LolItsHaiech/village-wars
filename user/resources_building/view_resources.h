@@ -10,8 +10,6 @@
 #include <unistd.h>
 
 inline void view_resources(user *player) {
-
-
     while (true) {
         int state[6] = {-1, -1, -1, -1, -1, -1}, i, number_resources = 0, choice;
 
@@ -21,7 +19,6 @@ inline void view_resources(user *player) {
             if (player->resources_generators[i].lvl != 0) {
                 state[number_resources] = i;
                 number_resources++;
-
             }
 
         if (number_resources == 0) {
@@ -35,14 +32,13 @@ inline void view_resources(user *player) {
         scanf("%d", &choice);
         fflush(stdin);
         while (1 > choice || choice > number_resources + 1) {
-            printf("your choice is incorect try again");
-            sleep(2);
+            printf("your choice is incorrect try again");
+            sleep(1);
             system("cls");
 
             printview_resource(player);
             scanf("%d", &choice);
             fflush(stdin);
-
         }
         if (choice == number_resources + 1)
             break;
@@ -59,7 +55,8 @@ inline void view_resources(user *player) {
                        status_construct[(int) player->resources_generators[state[choice - 1]].status]);
                 //todo switch
                 if (player->resources_generators[state[choice - 1]].status == ADDING)
-                    collect_source(player,player->resources_generators[state[choice - 1]].resource ,state[choice - 1] , 1);
+                    collect_source(player, player->resources_generators[state[choice - 1]].resource, state[choice - 1],
+                                   1);
 
                 if (player->resources_generators[state[choice - 1]].status == DELETING)
                     player->resources_generators[state[choice - 1]].lvl = 0;
@@ -72,7 +69,7 @@ inline void view_resources(user *player) {
                 player->resources_generators[state[choice - 1]].finishing_time = now;
                 save_user(player);
             }
-sleep(3);
+            sleep(1);
         }
     }
 }

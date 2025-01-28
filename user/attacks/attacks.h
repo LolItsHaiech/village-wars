@@ -122,11 +122,14 @@ inline void view_attacks_ui(user *player) {
 
 
     int i;
+    printf("      attacker     attacked       request time            end time              war/arc/rid   status\n");
+
     for (i = 0; i < attack_count; ++i) {
         char start_time[50];
         char end_time[50];
         user *attacker_user = get_user_by_id(attack_arr[i].attacker_user_id);
         user *attacked_user = get_user_by_id(attack_arr[i].attacked_user_id);
+
 
         switch (attack_arr[i].status) {
             case ON_THE_WAY:
@@ -140,7 +143,7 @@ inline void view_attacks_ui(user *player) {
                 break;
         }
 
-        printf("  %d - %s -> %s %s, %s %d %d %d, %s\n", i + 1,
+        printf("\n%3d - %-10s -> %-10s %22s  %22s %3d/%3d/%3d     %s\n", i + 1,
                attacker_user->username, attacked_user->username, start_time, end_time,
                attack_arr[i].soldiers_count.warrior, attack_arr[i].soldiers_count.archer,
                attack_arr[i].soldiers_count.rider, attack_status_name[(int) attack_arr[i].status]);
@@ -168,16 +171,19 @@ inline void attacks_history_ui(user *player) {
     int attack_count;
     attack *attack_arr = get_user_attacks(&attack_count, player->id, true, false);
     int i;
+    printf("      attacker      attacked       attack time           war/arc/rid(soldiers) war/arc/rid(survivors)   status\n");
+
     for (i = 0; i < attack_count; ++i) {
-        char start_time[50];
-        char end_time[50];
+        char attack_time[50];
         user *attacker = get_user_by_id(attack_arr[i].attacker_user_id);
         user *attacked = get_user_by_id(attack_arr[i].attacked_user_id);
-        get_date_time(start_time, attack_arr[i].request_time);
-        printf("  %s -> %s  %s, %s, %d %d %d %s\n",
-               attacker->username, attacked->username, start_time, end_time,
+        get_date_time(attack_time, attack_arr[i].start_attack_time);
+        printf("\n%3d - %-10s -> %-10s  %22s %3d/%3d/%3d           %3d/%3d/%3d                %4s\n", i + 1,
+               attacker->username, attacked->username, attack_time,
                attack_arr[i].soldiers_count.warrior, attack_arr[i].soldiers_count.archer,
-               attack_arr[i].soldiers_count.rider, attack_arr[i].attackers_won ? "won" : "lost");
+               attack_arr[i].soldiers_count.rider,
+               attack_arr[i].surviving_soldiers.warrior, attack_arr[i].surviving_soldiers.archer,
+               attack_arr[i].surviving_soldiers.rider,  attack_arr[i].attackers_won ? "won" : "lost");
 
         free(attacker);
         free(attacked);
@@ -272,9 +278,9 @@ inline bool proceed_attack(user *player, attack *input_attack) {
                     system("cls");
                     printf("Attack won\n\n");
 
-                    printf(food_full?"Your food storage is now full\n":"You got %d food\n", food_gotten);
-                    printf(wood_full?"Your wood storage is now full\n":"You got %d wood\n", wood_gotten);
-                    printf(stone_full?"Your stone storage is now full\n":"You got %d stone\n", stone_gotten);
+                    printf(food_full ? "Your food storage is now full\n" : "You got %d food\n", food_gotten);
+                    printf(wood_full ? "Your wood storage is now full\n" : "You got %d wood\n", wood_gotten);
+                    printf(stone_full ? "Your stone storage is now full\n" : "You got %d stone\n", stone_gotten);
 
 
                     printf("Press <Enter> to continue...\n");

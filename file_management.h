@@ -17,7 +17,6 @@
 #include "utils/structs.h"
 
 
-
 inline bool save_user(user *input_user) {
     FILE *users_file = fopen(USERS_FILE, "r");
 
@@ -81,14 +80,14 @@ inline user *get_user(char username[11], char password[11]) {
     }
 
     while (!feof(users_file)) {
-        user *cur_user = (user *) malloc(sizeof(user));
-        fread(cur_user, sizeof(user), 1, users_file);
-        if (strcmp(cur_user->username, username) == 0 &&
-            cur_user->encrypted_password == encrypt_password(password)) {
+        user *temp_user = (user *) malloc(sizeof(user));
+        fread(temp_user, sizeof(user), 1, users_file);
+        if (strcmp(temp_user->username, username) == 0 &&
+            temp_user->encrypted_password == encrypt_password(password)) {
             fclose(users_file);
-            return cur_user;
+            return temp_user;
         }
-        free(cur_user);
+        free(temp_user);
     }
     fclose(users_file);
     return NULL;
@@ -108,6 +107,7 @@ inline user *get_user_by_id(int id) {
             fclose(users_file);
             return cur_user;
         }
+        free(cur_user);
     }
     fclose(users_file);
     return NULL;
@@ -116,10 +116,10 @@ inline user *get_user_by_id(int id) {
 inline bool add_user(user *player) {
     FILE *users_file = fopen(USERS_FILE, "a");
     if (users_file == NULL) {
-        remove(USERS_FILE);
-        if (read_confirmation("Users file cannot be accessed,\nRemove the file and try again?", false))
+        if (read_confirmation("Users file cannot be accessed,\nRemove the file and try again?", false)) {
+            remove(USERS_FILE);
             users_file = fopen(USERS_FILE, "a");
-        else
+        } else
             return false;
     }
     bool success = fwrite(player, sizeof(user), 1, users_file);
@@ -133,7 +133,7 @@ inline bool unique_username_filter(char *username) {
         return true;
     while (!feof(users_file)) {
         user temp_user;
-        fread(&temp_user, sizeof(user), 1, users_file);
+        fread(&temp_user, +sizeof(user), 1, users_file);
         if (strcmp(temp_user.username, username) == 0) {
             fclose(users_file);
             printf("Username is already taken.\n");
@@ -144,6 +144,8 @@ inline bool unique_username_filter(char *username) {
     return true;
 }
 
+
+// returns an array of all users excluding one user
 inline user *get_all_users_expect(int *output_count, user *excluded_user) {
     *output_count = 0;
     FILE *users_file = fopen(USERS_FILE, "r");
@@ -186,8 +188,6 @@ inline attack *get_user_attacks(int *attacks_count, int id, bool done, bool only
     while (fread(&temp, sizeof(attack), 1, attacks_file)) {
         if ((temp.attacker_user_id == id || (!only_user_attacks && temp.attacked_user_id == id)) &&
             ((done && temp.status == DONE) || (!done && temp.status != DONE))) {
-
-
             attack_arr = realloc(attack_arr, (*attacks_count + 1) * sizeof(attack));
             attack_arr[*attacks_count] = temp;
             (*attacks_count)++;
@@ -211,44 +211,6 @@ inline int get_last_attack_id() {
     fclose(attacks_file);
     return id;
 }
-
-// inline void save_attack(attack* input_attack) {
-//     FILE *attacks_file = fopen(ATTACKS_FILE, "r");
-//
-//     if (attacks_file == NULL) {
-//         attacks_file = fopen(ATTACKS_FILE, "w");
-//         if (attacks_file == NULL) {
-//             return;
-//         }
-//         fwrite(input_attack, sizeof(attack), 1, attacks_file);
-//         fclose(attacks_file);
-//         return;
-//     }
-//
-//     FILE *temp_file = fopen(TEMP_FILE, "w");
-//
-//     if (temp_file == NULL) {
-//         remove(TEMP_FILE);
-//         temp_file = fopen(TEMP_FILE, "w");
-//     }
-//
-//     while (!feof(attacks_file)) {
-//         attack temp_attack;
-//         fread(&temp_attack, sizeof(attack), 1, attacks_file);
-//         if (input_attack->id == temp_attack.id) {
-//             fwrite(input_attack, sizeof(attack), 1, temp_file);
-//         } else {
-//             fwrite(&temp_attack, sizeof(attack), 1, temp_file);
-//         }
-//     }
-//
-//     fclose(attacks_file);
-//     fclose(temp_file);
-//
-//     remove(ATTACKS_FILE);
-//     rename(TEMP_FILE, ATTACKS_FILE);
-// }
-
 
 inline bool save_attack(attack *input_attack) {
     FILE *attacks_file = fopen(ATTACKS_FILE, "r");

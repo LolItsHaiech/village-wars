@@ -14,7 +14,7 @@
 #include "military/miliraty.h"
 
 inline user *register_user(char username[11], char password[11]);
-
+inline void rename_village_ui(user *);
 inline void user_menu_ui(user *player);
 
 
@@ -29,8 +29,8 @@ inline void register_user_ui() {
         printf("Register\n\n");
 
         printf(""
-               "  *Username and password should at least be 5 characters long.\n"
-               "  *Username should be unique.\n\n");
+            "  *Username and password should at least be 5 characters long.\n"
+            "  *Username should be unique.\n\n");
 
         while (!read_str_input("Username", username, 11, (bool (*[])(char *)){
                                    &unique_username_filter,
@@ -112,11 +112,11 @@ inline void change_password_ui(user *player) {
         printf("Change password\n\n");
 
 
-        while (!read_str_input("Old password", old_password, 11, NULL, 0)) {
+        while (!read_str_input("Old password", old_password, 11, (bool (*[])(char *)){&min_length_filter}, 1)) {
         }
-        while (!read_str_input("New password", new_password, 11, NULL, 0)) {
+        while (!read_str_input("New password", new_password, 11, (bool (*[])(char *)){&min_length_filter}, 1)) {
         }
-        while (!read_str_input("Confirm New password", new_password_confirm, 11, NULL, 0)) {
+        while (!read_str_input("Confirm New password", new_password_confirm, 11, (bool (*[])(char *)){&min_length_filter}, 1)) {
         }
 
         if (strcmp(new_password, new_password_confirm) != 0) {
@@ -161,7 +161,7 @@ inline user *register_user(char username[11], char password[11]) {
     }
 
     for (i = 0; i < 18; i++)
-        registered_user->soldiers[i].number_soldiers=0;
+        registered_user->soldiers[i].number_soldiers = 0;
 
     bool success = add_user(registered_user);
     if (!success) {
@@ -172,7 +172,6 @@ inline user *register_user(char username[11], char password[11]) {
 }
 
 
-inline void rename_village_ui(user *);
 
 inline void user_menu_ui(user *player) {
     bool exited = false;

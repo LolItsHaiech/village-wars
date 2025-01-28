@@ -27,16 +27,3 @@ int main() {
     }
     return 0;
 }
-
-
-// int main() {
-       // user temp;
-       // FILE *file = fopen("users.txt", "r");
-
-       // while(fread(&temp, sizeof(user), 1, file)) {
-           // printf("oi");
-       // }
-
-       // fclose(file);
-       // return 0;
-// }
